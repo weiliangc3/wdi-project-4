@@ -47079,8 +47079,16 @@ function MainRouter($stateProvider, $urlRouterProvider, $locationProvider){
       }
     })
     .state('user', {
-      url: "/users/:id",
+      url: "/users/:userId",
       templateUrl: "../views/users/show.html",
+      controller: "UsersController as profile",
+      onEnter: function(){
+        $('.sliding-panel-content,.sliding-panel-fade-screen').removeClass('is-visible');
+      }
+    })
+    .state('userEdit', {
+      url: "/users/:userId/edit",
+      templateUrl: "../views/users/editss.html",
       controller: "UsersController as profile",
       onEnter: function(){
         $('.sliding-panel-content,.sliding-panel-fade-screen').removeClass('is-visible');
@@ -47097,39 +47105,6 @@ function MainRouter($stateProvider, $urlRouterProvider, $locationProvider){
   $urlRouterProvider.otherwise("/");
 }
 
-// //Navigation Bar
-// $(window).resize(function() {
-//   var more = document.getElementById("js-navigation-more");
-//   if ($(more).length > 0) {
-//     var windowWidth = $(window).width();
-//     var moreLeftSideToPageLeftSide = $(more).offset().left;
-//     var moreLeftSideToPageRightSide = windowWidth - moreLeftSideToPageLeftSide;
-//
-//     if (moreLeftSideToPageRightSide < 330) {
-//       $("#js-navigation-more .submenu .submenu").removeClass("fly-out-right");
-//       $("#js-navigation-more .submenu .submenu").addClass("fly-out-left");
-//     }
-//
-//     if (moreLeftSideToPageRightSide > 330) {
-//       $("#js-navigation-more .submenu .submenu").removeClass("fly-out-left");
-//       $("#js-navigation-more .submenu .submenu").addClass("fly-out-right");
-//     }
-//   }
-// });
-//
-// $(document).ready(function() {
-//   var menuToggle = $("#js-mobile-menu").unbind();
-//   $("#js-navigation-menu").removeClass("show");
-//
-//   menuToggle.on("click", function(e) {
-//     e.preventDefault();
-//     $("#js-navigation-menu").slideToggle(function(){
-//       if($("#js-navigation-menu").is(":hidden")) {
-//         $("#js-navigation-menu").removeAttr("style");
-//       }
-//     });
-//   });
-// });
 
 // Sliding Navigation
 $(document).ready(function(){
@@ -47138,6 +47113,7 @@ $(document).ready(function(){
     e.preventDefault();
   });
 });
+
 
 angular
 .module('FightFederation')
@@ -47158,8 +47134,8 @@ function UsersController(User, CurrentUser, $state, $stateParams){
   self.logout        = logout;
   self.checkLoggedIn = checkLoggedIn;
 
-  if ($stateParams.id){
-    self.user = User.get({ id: $stateParams.id }, function(res){
+  if ($stateParams.userId){
+    self.user = User.get({ id: $stateParams.userId }, function(res){
       self.user = res.user;
     });
     console.log("user", self.user);
@@ -47177,6 +47153,7 @@ function UsersController(User, CurrentUser, $state, $stateParams){
       self.currentUser = CurrentUser.getUser();
       self.getUsers();
       $state.go("home");
+      console.log(self.currentUser);
     }
   }
 

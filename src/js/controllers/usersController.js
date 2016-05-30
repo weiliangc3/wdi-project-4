@@ -17,8 +17,8 @@ function UsersController(User, CurrentUser, $state, $stateParams){
   self.logout        = logout;
   self.checkLoggedIn = checkLoggedIn;
 
-  if ($stateParams.id){
-    self.user = User.get({ id: $stateParams.id }, function(res){
+  if ($stateParams.userId){
+    self.user = User.get({ id: $stateParams.userId }, function(res){
       self.user = res.user;
     });
     console.log("user", self.user);
@@ -36,6 +36,7 @@ function UsersController(User, CurrentUser, $state, $stateParams){
       self.currentUser = CurrentUser.getUser();
       self.getUsers();
       $state.go("home");
+      console.log(self.currentUser);
     }
   }
 

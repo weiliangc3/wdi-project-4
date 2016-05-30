@@ -1,0 +1,33 @@
+<h2>Edit your profile</h2>
+
+<form id="login" name="Users.updateForm" ng-submit="Users.update()" novalidate>
+  <div ng-show="(!!Users.error && Users.updateForm.$submitted)">{{ Users.error }}</div>
+
+  <div>
+    <label for="fullname">Full name</label>
+    <input type="text" id="fullname" placeholder="Full name" ng-model="Users.user.fullname">
+  </div>
+
+  <div>
+    <label for="email">Email address</label>
+    <input type="email" id="email" placeholder="Email" name="email" ng-model="Users.user.email" required>
+  </div>
+
+  <div ng-messages="Users.updateForm['email'].$error" ng-show="(Users.updateForm.$submitted && Users.updateForm['email'].$invalid)">
+    <span>Error:</span>
+    <span ng-message="required">Email is required.</span>
+  </div>
+
+  <div>
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Password" ng-model="Users.user.password" required>
+  </div>
+
+  <div ng-messages="Users.updateForm['password'].$error" ng-show="(Users.updateForm.$submitted && Users.updateForm['password'].$invalid)">
+    <span>Error:</span>
+    <span ng-message="required">Password is required.</span>
+  </div>
+
+  <button type="submit">Submit</button>
+
+</form>

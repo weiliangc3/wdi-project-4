@@ -8,7 +8,7 @@ var userSchema = mongoose.Schema({
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true }
   },
-  projects: [{ type: mongoose.Schema.ObjectId, ref: 'Project' }]
+  tournaments: [{ type: mongoose.Schema.ObjectId, ref: 'Tournament' }]
 });
 
 // INCLUDE PASSWORD CONFIRMATION

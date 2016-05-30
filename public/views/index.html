@@ -9,49 +9,34 @@
 </head>
 <body ng-controller="UsersController as Users">
 
-  <!-- <header class="navigation" role="banner">
-  <div class="navigation-wrapper">
-  <a href="javascript:void(0)" class="logo">
-  <img src="https://raw.githubusercontent.com/thoughtbot/refills/49db8c0f2f8066c2c3a275781503fe3303a1a9fc/source/images/placeholder.png" alt="Logo Image">
-</a>
-<a href="javascript:void(0)" class="navigation-menu-button" id="js-mobile-menu">MENU</a>
-<nav role="navigation">
-<ul id="js-navigation-menu" class="navigation-menu show">
-<li class="nav-link" ui-sref="home"><a href="javascript:void(0)">Home</a></li>
-<li class="nav-link" ui-sref="login" ng-hide="Users.checkLoggedIn()"><a href="javascript:void(0)">Log In</a></li>
-<li class="nav-link" ui-sref="register" ng-hide="Users.checkLoggedIn()"><a href="javascript:void(0)">Register</a></li>
-<li class="nav-link" ng-click="Users.logout()" ng-show="Users.checkLoggedIn()"><a href="javascript:void(0)">Logout</a></li>
-</ul>
-</nav>
-</div>
-</header> -->
 
-<header>
-  <nav class="js-menu sliding-panel-content">
-    <ul>
-      <li><a href="/home" ui-sref="home">Home</a></li>
-      <li><a href="/login" ui-sref="login" ng-hide="Users.checkLoggedIn()">Login</a></li>
-      <li><a href="/register" ui-sref="register" ng-hide="Users.checkLoggedIn()">Register</a></li>
-      <li><a href="/register" ng-click="Users.logout()" ng-show="Users.checkLoggedIn()">Logout</a></li>
-    </ul>
-  </nav>
-</header>
+  <header>
+    <nav class="js-menu sliding-panel-content">
+      <ul>
+        <li><a href="/home" ui-sref="home">Home</a></li>
+        <!-- Before login -->
+        <li><a href="/login" ui-sref="login" ng-hide="Users.checkLoggedIn()">Login</a></li>
+        <li><a href="/register" ui-sref="register" ng-hide="Users.checkLoggedIn()">Register</a></li>
+        <!-- After login -->
+        <li><a href="/login" ui-sref="user({ userId: Users.currentUser._id })" ng-show="Users.checkLoggedIn()">User Profile</a></li>
+        <li><a href="/register" ng-click="Users.logout()" ng-show="Users.checkLoggedIn()">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<div class="js-menu-screen sliding-panel-fade-screen"></div>
+  <div class="js-menu-screen sliding-panel-fade-screen"></div>
 
 
-<button type="button" class="js-menu-trigger sliding-panel-button">
-  Click for Sliding Panel
-</button>
+  <button type="button" class="js-menu-trigger sliding-panel-button">
+    Navigation Button
+  </button>
+
+  <h1>Fight Federation</h1>
 
 
 
-<h1>Fight Federation</h1>
-
-
-
-<main ui-view>
-  <h2>We are locating your page...</h2>
-</main>
+  <main ui-view>
+    <h2>We are locating your page...</h2>
+  </main>
 </body>
 </html>
