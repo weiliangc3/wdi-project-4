@@ -1,41 +1,38 @@
-<!-- <h2>Register</h2>
+<h2>Register</h2>
 
-<form id="login" name="users.registerForm" ng-submit="users.register()" novalidate>
-  <div ng-show="(!!users.error && users.registerForm.$submitted)">{{ users.error }}</div>
+<form id="login" name="Users.registerForm" ng-submit="Users.register()" novalidate>
+  <div ng-show="(!!Users.error && Users.registerForm.$submitted)">{{ Users.error }}</div>
 
   <div>
     <label for="username">Username</label>
-    <input type="text" id="username" placeholder="Username" ng-model="users.user.username">
+    <input type="text" id="username" placeholder="Username" ng-model="Users.user.username">
   </div>
 
   <div>
     <label for="fullname">Full name</label>
-    <input type="text" id="fullname" placeholder="Full name" ng-model="users.user.fullname">
-  </div>
-
-  <div>
-    <label for="image">Image URL</label>
-    <input type="text" id="image" placeholder="Image URL" ng-model="users.user.image">
+    <input type="text" id="fullname" placeholder="Full name" ng-model="Users.user.fullname">
   </div>
 
   <div>
     <label for="email">Email address</label>
-    <input type="email" id="email" placeholder="Email" name="email" ng-model="users.user.email" required>
+    <input type="email" id="email" placeholder="Email" name="email" ng-model="Users.user.email" required>
   </div>
 
-  <div ng-messages="users.registerForm['email'].$error" ng-show="(users.registerForm.$submitted && users.registerForm['email'].$invalid)">
+  <div ng-messages="Users.registerForm['email'].$error" ng-show="(Users.registerForm.$submitted && Users.registerForm['email'].$invalid)">
     <span>Error:</span>
     <span ng-message="required">Email is required.</span>
   </div>
 
   <div>
     <label for="password">Password</label>
-    <input type="password" id="password" name="password" placeholder="Password" ng-model="users.user.password" required>
+    <input type="password" id="password" name="password" placeholder="Password" ng-model="Users.user.password" required>
   </div>
 
-  <div ng-messages="users.registerForm['password'].$error" ng-show="(users.registerForm.$submitted && users.registerForm['password'].$invalid)">
+  <div ng-messages="Users.registerForm['password'].$error" ng-show="(Users.registerForm.$submitted && Users.registerForm['password'].$invalid)">
     <span>Error:</span>
     <span ng-message="required">Password is required.</span>
   </div>
 
-  <button type="submit">Submit</button> -->
+  <button type="submit">Submit</button>
+
+</form>
