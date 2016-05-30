@@ -32,14 +32,30 @@ function usersUpdate(req, res){
 
 function usersDelete(req, res){
   User.findByIdAndRemove({_id: req.params.id}, function(err){
-   if (err) return res.status(404).json({message: 'Something went wrong.'});
+   if (err) return res.status(500).json({message: 'Something went wrong.'});
    res.status(200).json({message: 'User has been successfully deleted'});
   });
 }
+
+function usersAddTournament(req, res){
+  User.findById(req.body.id, function(err, user){
+    if(err) return res.status(418).json({message: "Something went wrong finding the user"});
+    if (!user) return res.status(404).json({message: 'No user found.'});
+
+    user.tournaments.push(req.body.tournament);
+    user.save(function(err){
+      if (err) return res.status(500).json({message: "Something went wrong updating the user!"});
+
+       res.status(201).json({message: 'Tournament added', user: user});
+    });
+  });
+}
+
 
 module.exports = {
   usersIndex:  usersIndex,
   usersShow:   usersShow,
   usersUpdate: usersUpdate,
-  usersDelete: usersDelete
+  usersDelete: usersDelete,
+  usersAddTournament: usersAddTournament
 };

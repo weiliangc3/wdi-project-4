@@ -1,4 +1,5 @@
 var Tournament = require("../models/tournament");
+var User = require("../models/user");
 
 function tournamentsIndex(req, res){
   Tournament.find({}, function(err, tournaments) {
@@ -38,11 +39,26 @@ function tournamentsUpdate(req, res){
 function tournamentsDelete(req, res){
   var id = req.params.id;
 
+  Tournament.findById(id, function(err, tournament){
+    console.log(tournament);
+    for (i = 0; i < tournament.players.length ; i++){
+      var playerId = tournament.players[i].id;
+      User.findById(playerId, function(err, player){
+        var index = player.tournaments.indexOf(id);
+        if (index > -1) player.tournaments.splice(index, 1);
+        player.save(function(err){
+          console.log(err);
+        });
+      });
+    }
+  });
+
   Tournament.remove({ _id: id }, function(err) {
     if (err) return res.status(500).json(err);
     res.status(200).json({ message: "Deleted!" });
   });
 }
+
 
 module.exports = {
   tournamentsIndex:  tournamentsIndex,

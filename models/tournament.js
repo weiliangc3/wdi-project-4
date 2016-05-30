@@ -3,9 +3,9 @@ var Schema   = mongoose.Schema;
 var Match = require("./match");
 
 var tournamentSchema = mongoose.Schema({
-  name: { type: String , required: true, unique: true},
+  name: { type: String , required: true, unique: true },
   location: String,
-  game: String,
+  game: { type: String , required: true },
   description: String,
   endDate: Date,
   creator: { type: mongoose.Schema.ObjectId, ref: 'User' },

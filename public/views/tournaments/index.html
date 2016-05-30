@@ -1,1 +1,12 @@
 <h2>Tournaments Dashboard</h2>
+
+<ul>
+  <li ng-repeat="tournament in tournaments.tournaments">
+    <ul>
+      <li>{{tournament.name}}</li>
+      <li ng-click="tournaments.deleteTournament(tournament._id)">Remove Tournament Listing</li>
+    </ul>
+  </li>
+</ul>
+
+<li><a href="/tournaments" ui-sref="createTournament" ng-show="Users.checkLoggedIn()">Create Tournament</a></li>

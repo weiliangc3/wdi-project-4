@@ -1,26 +1,26 @@
 <h2>Login</h2>
-  <form id="login" name="Users.loginForm" ng-submit="Users.login()" novalidate>
-    <div ng-show="(!!Users.error && Users.loginForm.$submitted)">{{ Users.error }}</div>
+<form id="login" name="Users.loginForm" ng-submit="Users.login()" novalidate>
+  <div ng-show="(!!Users.error && Users.loginForm.$submitted)">{{ Users.error }}</div>
 
-    <div>
-      <label for="email">Email address</label>
-      <input type="email" id="email" placeholder="Email" name="email" ng-model="Users.user.email" required>
-    </div>
+  <div>
+    <label for="email">Email address</label>
+    <input type="email" id="email" placeholder="Email" name="email" ng-model="Users.user.email" required>
+  </div>
 
-    <div ng-messages="Users.loginForm['email'].$error" ng-show="(Users.loginForm.$submitted && Users.loginForm['email'].$invalid)">
-      <span>Error:</span>
-      <span ng-message="required">Email is required.</span>
-    </div>
+  <div ng-messages="Users.loginForm['email'].$error" ng-show="(Users.loginForm.$submitted && Users.loginForm['email'].$invalid)">
+    <span>Error:</span>
+    <span ng-message="required">Email is required.</span>
+  </div>
 
-    <div>
-      <label for="password">Password</label>
-      <input type="text" id="password" name="password"  placeholder="Password" ng-model="Users.user.password" required>
-    </div>
+  <div>
+    <label for="password">Password</label>
+    <input type="text" id="password" name="password"  placeholder="Password" ng-model="Users.user.password" required>
+  </div>
 
-    <div ng-messages="Users.loginForm['password'].$error" ng-show="(Users.loginForm.$submitted && Users.loginForm['password'].$invalid)">
-      <span>Error:</span>
-      <span ng-message="required">Password is required.</span>
-    </div>
+  <div ng-messages="Users.loginForm['password'].$error" ng-show="(Users.loginForm.$submitted && Users.loginForm['password'].$invalid)">
+    <span>Error:</span>
+    <span ng-message="required">Password is required.</span>
+  </div>
 
-    <button type="submit">Submit</button>
-  </form>
+  <button type="submit">Submit</button>
+</form>

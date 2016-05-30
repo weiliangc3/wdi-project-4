@@ -1,1 +1,43 @@
 <h2>Create Tournament</h2>
+
+<form id="create_tournament" name="tournaments.creationForm" ng-submit="tournaments.createTournament()" novalidate>
+  <div ng-show="(!!tournaments.error && tournaments.creationForm.$submitted)">{{ tournaments.error }}</div>
+
+  <div>
+    <label for="name">Tournament Name*</label>
+    <input type="name" id="name" placeholder="Name" name="name" ng-model="tournaments.tournament.name" required>
+  </div>
+
+  <div ng-messages="tournaments.creationForm['name'].$error" ng-show="(tournaments.creationForm.$submitted && tournaments.creationForm['name'].$invalid)">
+    <span>Error:</span>
+    <span ng-message="required">Tournament name is required.</span>
+  </div>
+
+  <div>
+    <label for="game">Game*</label>
+    <input type="text" id="game" name="game"  placeholder="Game" ng-model="tournaments.tournament.game" required>
+  </div>
+
+  <div ng-messages="tournaments.creationForm['game'].$error" ng-show="(tournaments.creationForm.$submitted && tournaments.creationForm['game'].$invalid)">
+    <span>Error:</span>
+    <span ng-message="required">Game must be specified.</span>
+  </div>
+
+  <div>
+    <label for="location">Location</label>
+    <input type="text" id="location" name="location"  placeholder="Location" ng-model="tournaments.tournament.location">
+  </div>
+
+  <div>
+    <label for="endDate">Ending Date</label>
+    <input type="date" id="endDate" name="endDate"  placeholder="Ending Date" ng-model="tournaments.tournament.endDate">
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" ng-model="tournaments.tournament.description"></textarea>
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
+* -These fields are required

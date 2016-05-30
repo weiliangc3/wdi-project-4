@@ -19,6 +19,10 @@ function User($resource, API){
       'login':     {
         url: API + "/login",
         method: "POST"
+      },
+      'addTournament': {
+        url:API + '/users/addTournament',
+        method: 'POST'
       }
     }
   );

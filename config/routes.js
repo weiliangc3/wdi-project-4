@@ -18,8 +18,12 @@ router.route('/users/:id')
 .patch(usersController.usersUpdate)
 .delete(usersController.usersDelete);
 
+router.route('/users/addTournament')
+.post(usersController.usersAddTournament);
+
 router.route('/matches')
-.get(matchesController.matchesIndex);
+.get(matchesController.matchesIndex)
+.post(matchesController.matchesCreate);
 
 router.route('/matches/:id')
 .get(matchesController.matchesShow)
@@ -27,12 +31,12 @@ router.route('/matches/:id')
 .delete(matchesController.matchesDelete);
 
 router.route('/tournaments')
-.get(tournamentsController.tournamentsIndex);
+.get(tournamentsController.tournamentsIndex)
+.post(tournamentsController.tournamentsCreate);
 
 router.route('/tournaments/:id')
 .get(tournamentsController.tournamentsShow)
 .patch(tournamentsController.tournamentsUpdate)
 .delete(tournamentsController.tournamentsDelete);
-
 
 module.exports = router;

@@ -62,6 +62,14 @@ function MainRouter($stateProvider, $urlRouterProvider, $locationProvider){
       onEnter: function(){
         $('.sliding-panel-content,.sliding-panel-fade-screen').removeClass('is-visible');
       }
+    })
+    .state('createTournament', {
+      url: "/startTournament",
+      templateUrl: "../views/tournaments/create.html",
+      controller: "TournamentsController as tournaments",
+      onEnter: function(){
+        $('.sliding-panel-content,.sliding-panel-fade-screen').removeClass('is-visible');
+      }
     });
 
     //For reference I've pased the other solution:
