@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/weiliangc3/wdi-project-4#readme",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.1",
     "cookie-parser": "^1.4.3",
     "cors": "^2.7.1",
@@ -38,6 +39,7 @@
     "node-neat": "^1.7.2",
     "node-refills": "^1.0.1",
     "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7"
   }
 }
