@@ -46375,7 +46375,7 @@ function CurrentUser(TokenService){
 }
 
 angular
-  .module('JustUsers')
+  .module('FightFederation')
   .service("TokenService", TokenService);
 
 TokenService.$inject = ["$window","jwtHelper"];
