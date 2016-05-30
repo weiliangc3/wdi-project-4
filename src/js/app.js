@@ -11,23 +11,23 @@ function MainRouter($stateProvider, $urlRouterProvider){
   $stateProvider
     .state('home', {
       url: "/",
-      templateUrl: "./js/views/home.html"
+      templateUrl: "../views/statics/home.html"
     })
     .state('login', {
       url: "/login",
-      templateUrl: "./js/views/authentications/login.html"
+      templateUrl: "../views/authentications/login.html"
     })
     .state('register', {
       url: "/register",
-      templateUrl: "./js/views/authentications/register.html"
+      templateUrl: "../views/authentications/register.html"
     })
     .state('users', {
       url: "/users",
-      templateUrl: "./js/views/users/index.html"
+      templateUrl: "../views/users/index.html"
     })
     .state('user', {
       url: "/users/:id",
-      templateUrl: "./js/views/users/show.html",
+      templateUrl: "../views/users/show.html",
       controller: "UsersController as profile"
     });
 
@@ -43,3 +43,37 @@ function MainRouter($stateProvider, $urlRouterProvider){
 
 
 console.log("Yo?");
+
+//Navigation Bar
+$(window).resize(function() {
+  var more = document.getElementById("js-navigation-more");
+  if ($(more).length > 0) {
+    var windowWidth = $(window).width();
+    var moreLeftSideToPageLeftSide = $(more).offset().left;
+    var moreLeftSideToPageRightSide = windowWidth - moreLeftSideToPageLeftSide;
+
+    if (moreLeftSideToPageRightSide < 330) {
+      $("#js-navigation-more .submenu .submenu").removeClass("fly-out-right");
+      $("#js-navigation-more .submenu .submenu").addClass("fly-out-left");
+    }
+
+    if (moreLeftSideToPageRightSide > 330) {
+      $("#js-navigation-more .submenu .submenu").removeClass("fly-out-left");
+      $("#js-navigation-more .submenu .submenu").addClass("fly-out-right");
+    }
+  }
+});
+
+$(document).ready(function() {
+  var menuToggle = $("#js-mobile-menu").unbind();
+  $("#js-navigation-menu").removeClass("show");
+
+  menuToggle.on("click", function(e) {
+    e.preventDefault();
+    $("#js-navigation-menu").slideToggle(function(){
+      if($("#js-navigation-menu").is(":hidden")) {
+        $("#js-navigation-menu").removeAttr("style");
+      }
+    });
+  });
+});

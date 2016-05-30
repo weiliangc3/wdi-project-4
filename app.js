@@ -60,7 +60,7 @@ app.use("/", express.static(__dirname + "/public"));
 app.use("/", express.static(__dirname + "/bower_components"));
 
 app.get("/*",function (req,res){
-  res.sendFile(__dirname + '/public/index.html');
+  res.sendFile(__dirname + '/public/views/index.html');
 });
 
 // Now stay a while, and listen.
