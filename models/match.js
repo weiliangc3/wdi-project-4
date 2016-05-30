@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var Schema   = mongoose.Schema;
 
 var matchSchema = mongoose.Schema({
   score: [ Number ],

@@ -1,4 +1,6 @@
 var mongoose = require("mongoose");
+var Schema   = mongoose.Schema;
+var Match = require("./match");
 
 var tournamentSchema = mongoose.Schema({
   name: { type: String , required: true, unique: true},
