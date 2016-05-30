@@ -64,4 +64,6 @@ app.get("/*",function (req,res){
 });
 
 // Now stay a while, and listen.
-app.listen(config.port);
+app.listen(config.port, function(){
+  console.log("The Fight Federation is meeting at Port " + config.port);
+});
