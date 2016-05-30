@@ -40,10 +40,14 @@ function tournamentsDelete(req, res){
   var id = req.params.id;
 
   Tournament.findById(id, function(err, tournament){
-    console.log(tournament);
-    for (i = 0; i < tournament.players.length ; i++){
-      var playerId = tournament.players[i].id;
+    if (err) return res.status(500).json(err);
+    if (!tournament) return res.status(404).json(err);
+    var tournamentToRemove = tournament;
+    for (i = 0; i < tournamentToRemove.players.length ; i++){
+      var playerId = tournamentToRemove.players[i];
       User.findById(playerId, function(err, player){
+        if (err) return res.status(500).json(err);
+        if (!tournament) return res.status(404).json(err);
         var index = player.tournaments.indexOf(id);
         if (index > -1) player.tournaments.splice(index, 1);
         player.save(function(err){
@@ -51,11 +55,10 @@ function tournamentsDelete(req, res){
         });
       });
     }
-  });
-
-  Tournament.remove({ _id: id }, function(err) {
-    if (err) return res.status(500).json(err);
-    res.status(200).json({ message: "Deleted!" });
+    Tournament.remove({ _id: id }, function(err) {
+      if (err) return res.status(500).json(err);
+      res.status(200).json({ message: "Deleted!" });
+    });
   });
 }
 

@@ -47156,7 +47156,6 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
   function getTournaments(){
     console.log($scope.$parent.Users.currentUser);
     Tournament.query(function(data){
-      console.log(data);
       self.tournaments = data;
     });
   }
@@ -47166,7 +47165,6 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
     self.tournament.creator = currentUserId;
     self.tournament.players = [];
     self.tournament.players.push(currentUserId);
-    // add tournament to database
     Tournament.save({ tournament: self.tournament
     },
     function(data){
@@ -47174,14 +47172,14 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
         id: currentUserId,
         tournament: data.tournament
       },function(user){
-        console.log("user updated", user);
+        $state.go("tournaments");
       });
     });
   }
 
   function deleteTournament(id){
     Tournament.delete({id: id}, function(){
-      console.log("It's deleted!");
+      getTournaments();
     });
 
   }
