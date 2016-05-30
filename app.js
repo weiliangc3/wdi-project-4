@@ -15,6 +15,8 @@ var config         = require('./config/config');
 var User           = require('./models/user');
 var secret         = require('./config/config').secret;
 
+//API stuff
+
 mongoose.connect(config.database);
 
 require('./config/passport')(passport);
@@ -52,4 +54,14 @@ app.use(function (err, req, res, next) {
 var routes = require('./config/routes');
 app.use("/api", routes);
 
+// Front end stuff
+
+app.use("/", express.static(__dirname + "/public"));
+app.use("/", express.static(__dirname + "/bower_components"));
+
+app.get("/*",function (req,res){
+  res.sendFile(__dirname + '/public/index.html');
+});
+
+// Now stay a while, and listen.
 app.listen(config.port);
