@@ -3,7 +3,7 @@ var Match = require("../models/match");
 function matchesIndex(req, res){
   Match.find({}, function(err, match) {
     if (err) return res.status(404).json(err);
-    res.status(200).json({ matches: matches });
+    res.status(200).json(matches);
   });
 }
 

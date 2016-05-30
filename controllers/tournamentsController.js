@@ -1,9 +1,9 @@
 var Tournament = require("../models/tournament");
 
 function tournamentsIndex(req, res){
-  Tournament.find({}, function(err, tournament) {
+  Tournament.find({}, function(err, tournaments) {
     if (err) return res.status(404).json(err);
-    res.status(200).json({ tournaments: tournaments });
+    res.status(200).json(tournaments);
   });
 }
 

@@ -2,8 +2,8 @@ angular
 .module('FightFederation')
 .controller('TournamentsController', TournamentsController);
 
-TournamentsController.$inject = ['$state', '$stateParams', '$scope'];
-function TournamentsController($state, $stateParams, $scope){
+TournamentsController.$inject = ['Tournament', '$state', '$stateParams', '$scope'];
+function TournamentsController(Tournament, $state, $stateParams, $scope){
   var self = this;
 
   self.tournaments = [];
