@@ -353,3 +353,80 @@ header.navigation .search-bar form button[type=submit] img {
     display: block;
   }
 }
+
+.sliding-panel-content {
+  position: fixed;
+  top: 0;
+  right: auto;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 220px;
+  background: #404040;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  transform: translateX(-220px);
+  transition: all 0.25s linear;
+  z-index: 999999;
+}
+
+.sliding-panel-content ul {
+  padding: 0;
+  margin: 0;
+}
+
+.sliding-panel-content li {
+  list-style: none;
+}
+
+.sliding-panel-content li a {
+  border-bottom: 1px solid #333;
+  color: #fff;
+  display: block;
+  font-weight: bold;
+  padding: 1em;
+  text-decoration: none;
+}
+
+.sliding-panel-content li a:focus {
+  background-color: #4d4d4d;
+}
+
+.sliding-panel-content li a:hover {
+  background-color: #477DCA;
+  color: #fff;
+}
+
+.sliding-panel-content.is-visible {
+  transform: translateX(0);
+}
+
+.sliding-panel-fade-screen {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: black;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+  visibility: hidden;
+  z-index: 999998;
+}
+
+.sliding-panel-fade-screen.is-visible {
+  opacity: 0.4;
+  visibility: visible;
+}
+
+.sliding-panel-button {
+  cursor: pointer;
+  display: inline-block;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+}
+
+.sliding-panel-button img {
+  height: 1.3em;
+}
