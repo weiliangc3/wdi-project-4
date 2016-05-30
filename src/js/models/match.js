@@ -1,12 +1,12 @@
 angular
   .module('FightFederation')
-  .factory('Tournament', Tournament);
+  .factory('Match', Match);
 
-Tournament.$inject = ['$resource', 'API'];
-function Tournament($resource, API){
+Match.$inject = ['$resource', 'API'];
+function Match($resource, API){
 
   return $resource(
-    API+'/tournaments/:id', {id: '@id'},
+    API+'/matches/:id', {id: '@id'},
     { 'get':       { method: 'GET' },
       'save':      { method: 'POST' },
       'query':     { method: 'GET', isArray: true},

@@ -47088,8 +47088,16 @@ function MainRouter($stateProvider, $urlRouterProvider, $locationProvider){
     })
     .state('userEdit', {
       url: "/users/:userId/edit",
-      templateUrl: "../views/users/editss.html",
+      templateUrl: "../views/users/edit.html",
       controller: "UsersController as profile",
+      onEnter: function(){
+        $('.sliding-panel-content,.sliding-panel-fade-screen').removeClass('is-visible');
+      }
+    })
+    .state('tournaments', {
+      url: "/tournaments",
+      templateUrl: "../views/tournaments/index.html",
+      controller: "TournamentsController as tournaments",
       onEnter: function(){
         $('.sliding-panel-content,.sliding-panel-fade-screen').removeClass('is-visible');
       }
@@ -47114,6 +47122,36 @@ $(document).ready(function(){
   });
 });
 
+angular
+.module('FightFederation')
+.controller('MatchesController', MatchesController);
+
+MatchesController.$inject = ['$state', '$stateParams'];
+function MatchesController($state, $stateParams){
+
+}
+
+angular
+.module('FightFederation')
+.controller('TournamentsController', TournamentsController);
+
+TournamentsController.$inject = ['$state', '$stateParams', '$scope'];
+function TournamentsController($state, $stateParams, $scope){
+  var self = this;
+
+  self.tournaments = [];
+
+  function getTournaments(){
+    console.log($scope.$parent.Users.currentUser);
+    console.log("finding Tourneys");
+    Tournament.query(function(data){
+      console.log(data);
+      self.tournaments = data;
+    });
+  }
+
+  getTournaments();
+}
 
 angular
 .module('FightFederation')
@@ -47138,7 +47176,6 @@ function UsersController(User, CurrentUser, $state, $stateParams){
     self.user = User.get({ id: $stateParams.userId }, function(res){
       self.user = res.user;
     });
-    console.log("user", self.user);
   }
 
   function getUsers() {
@@ -47153,7 +47190,6 @@ function UsersController(User, CurrentUser, $state, $stateParams){
       self.currentUser = CurrentUser.getUser();
       self.getUsers();
       $state.go("home");
-      console.log(self.currentUser);
     }
   }
 
@@ -47191,26 +47227,36 @@ function UsersController(User, CurrentUser, $state, $stateParams){
 
 angular
   .module('FightFederation')
+  .factory('Match', Match);
+
+Match.$inject = ['$resource', 'API'];
+function Match($resource, API){
+
+  return $resource(
+    API+'/matches/:id', {id: '@id'},
+    { 'get':       { method: 'GET' },
+      'save':      { method: 'POST' },
+      'query':     { method: 'GET', isArray: true},
+      'remove':    { method: 'DELETE' },
+      'delete':    { method: 'DELETE' }
+    }
+  );
+}
+
+angular
+  .module('FightFederation')
   .factory('Tournament', Tournament);
 
 Tournament.$inject = ['$resource', 'API'];
 function Tournament($resource, API){
 
   return $resource(
-    API+'/users/:id', {id: '@id'},
+    API+'/tournaments/:id', {id: '@id'},
     { 'get':       { method: 'GET' },
       'save':      { method: 'POST' },
-      'query':     { method: 'GET', isArray: false},
+      'query':     { method: 'GET', isArray: true},
       'remove':    { method: 'DELETE' },
-      'delete':    { method: 'DELETE' },
-      'register':  {
-        url: API + "/register",
-        method: "POST"
-      },
-      'login':     {
-        url: API + "/login",
-        method: "POST"
-      }
+      'delete':    { method: 'DELETE' }
     }
   );
 }

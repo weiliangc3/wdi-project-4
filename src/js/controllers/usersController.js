@@ -21,7 +21,6 @@ function UsersController(User, CurrentUser, $state, $stateParams){
     self.user = User.get({ id: $stateParams.userId }, function(res){
       self.user = res.user;
     });
-    console.log("user", self.user);
   }
 
   function getUsers() {
@@ -36,7 +35,6 @@ function UsersController(User, CurrentUser, $state, $stateParams){
       self.currentUser = CurrentUser.getUser();
       self.getUsers();
       $state.go("home");
-      console.log(self.currentUser);
     }
   }
 

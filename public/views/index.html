@@ -18,7 +18,8 @@
         <li><a href="/login" ui-sref="login" ng-hide="Users.checkLoggedIn()">Login</a></li>
         <li><a href="/register" ui-sref="register" ng-hide="Users.checkLoggedIn()">Register</a></li>
         <!-- After login -->
-        <li><a href="/login" ui-sref="user({ userId: Users.currentUser._id })" ng-show="Users.checkLoggedIn()">User Profile</a></li>
+        <li><a href="/profile" ui-sref="user({ userId: Users.currentUser._id })" ng-show="Users.checkLoggedIn()">User Profile</a></li>
+        <li><a href="/tournaments" ui-sref="tournaments" ng-show="Users.checkLoggedIn()">Tournament Dashboard</a></li>
         <li><a href="/register" ng-click="Users.logout()" ng-show="Users.checkLoggedIn()">Logout</a></li>
       </ul>
     </nav>

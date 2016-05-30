@@ -49,8 +49,16 @@ function MainRouter($stateProvider, $urlRouterProvider, $locationProvider){
     })
     .state('userEdit', {
       url: "/users/:userId/edit",
-      templateUrl: "../views/users/editss.html",
+      templateUrl: "../views/users/edit.html",
       controller: "UsersController as profile",
+      onEnter: function(){
+        $('.sliding-panel-content,.sliding-panel-fade-screen').removeClass('is-visible');
+      }
+    })
+    .state('tournaments', {
+      url: "/tournaments",
+      templateUrl: "../views/tournaments/index.html",
+      controller: "TournamentsController as tournaments",
       onEnter: function(){
         $('.sliding-panel-content,.sliding-panel-fade-screen').removeClass('is-visible');
       }
