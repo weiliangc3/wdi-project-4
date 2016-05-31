@@ -9,6 +9,8 @@ var userSchema = mongoose.Schema({
     password: { type: String, required: true }
   },
   tournaments: [{ type: mongoose.Schema.ObjectId, ref: 'Tournament' }]
+}, {
+  timestamps: true
 });
 
 // INCLUDE PASSWORD CONFIRMATION

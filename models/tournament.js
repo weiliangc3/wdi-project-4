@@ -16,6 +16,8 @@ var tournamentSchema = mongoose.Schema({
   finalResults: [Number],
 
   finished: Boolean
+}, {
+  timestamps: true
 });
 
 

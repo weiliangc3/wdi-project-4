@@ -47109,14 +47109,16 @@ function MainRouter($stateProvider, $urlRouterProvider, $locationProvider){
       onEnter: function(){
         $('.sliding-panel-content,.sliding-panel-fade-screen').removeClass('is-visible');
       }
+    })
+    .state('showTournament', {
+      url: "/tournament/:tournamentId",
+      templateUrl: "../views/tournaments/show.html",
+      controller: "TournamentsController as tournaments",
+      onEnter: function(){
+        $('.sliding-panel-content,.sliding-panel-fade-screen').removeClass('is-visible');
+      }
     });
 
-    //For reference I've pased the other solution:
-    // controller: function($scope, $stateParams, User) {
-    //   User.get({ id: $stateParams.id }, function(res){
-    //     $scope.$parent.users.user = res.user;
-    //   });
-    // }
 
   $urlRouterProvider.otherwise("/");
 }
@@ -47150,11 +47152,17 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
   self.tournaments = [];
   self.createTournament = createTournament;
   self.deleteTournament = deleteTournament;
+  self.tournament = null;
 
   getTournaments();
 
+  if ($stateParams.tournamentId){
+    self.user = Tournament.get({ id: $stateParams.tournamentId }, function(res){
+      self.tournament = res.tournament;
+    });
+  }
+
   function getTournaments(){
-    console.log($scope.$parent.Users.currentUser);
     Tournament.query(function(data){
       self.tournaments = data;
     });
@@ -47181,8 +47189,40 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
     Tournament.delete({id: id}, function(){
       getTournaments();
     });
-
   }
+
+
+  // Scroll on Page
+  (function (jQuery) {
+    jQuery.mark = {
+      jump: function (options) {
+        var defaults = {
+          selector: 'a.scroll-on-page-link'
+        };
+        if (typeof options == 'string') {
+          defaults.selector = options;
+        }
+
+        options = jQuery.extend(defaults, options);
+        return jQuery(options.selector).click(function (e) {
+          var jumpobj = jQuery(this);
+          var target = jumpobj.attr('href');
+          var thespeed = 1000;
+          var offset = jQuery(target).offset().top;
+          jQuery('html,body').animate({
+            scrollTop: offset
+          }, thespeed, 'swing');
+          e.preventDefault();
+        });
+      }
+    };
+  })(jQuery);
+
+
+  jQuery(function(){
+    jQuery.mark.jump();
+  });
+
 }
 
 angular
@@ -47208,6 +47248,10 @@ function UsersController(User, CurrentUser, $state, $stateParams){
     self.user = User.get({ id: $stateParams.userId }, function(res){
       self.user = res.user;
     });
+  }
+
+  if ($stateParams.tournamentId){
+    console.log("Found a tournament active!");
   }
 
   function getUsers() {

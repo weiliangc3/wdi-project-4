@@ -23,6 +23,10 @@ function UsersController(User, CurrentUser, $state, $stateParams){
     });
   }
 
+  if ($stateParams.tournamentId){
+    console.log("Found a tournament active!");
+  }
+
   function getUsers() {
     User.query(function(data){
       self.all = data.users;

@@ -3,8 +3,8 @@
 <ul>
   <li ng-repeat="tournament in tournaments.tournaments">
     <ul>
-      <li>{{tournament.name}}</li>
-      <li ng-click="tournaments.deleteTournament(tournament._id)">Remove Tournament Listing</li>
+      <li class="link" ui-sref="showTournament({tournamentId: tournament._id})">{{tournament.name}}</li>
+      <li ng-click="tournaments.deleteTournament(tournament._id)" class="link">Remove Tournament Listing</li>
     </ul>
   </li>
 </ul>

@@ -70,14 +70,16 @@ function MainRouter($stateProvider, $urlRouterProvider, $locationProvider){
       onEnter: function(){
         $('.sliding-panel-content,.sliding-panel-fade-screen').removeClass('is-visible');
       }
+    })
+    .state('showTournament', {
+      url: "/tournament/:tournamentId",
+      templateUrl: "../views/tournaments/show.html",
+      controller: "TournamentsController as tournaments",
+      onEnter: function(){
+        $('.sliding-panel-content,.sliding-panel-fade-screen').removeClass('is-visible');
+      }
     });
 
-    //For reference I've pased the other solution:
-    // controller: function($scope, $stateParams, User) {
-    //   User.get({ id: $stateParams.id }, function(res){
-    //     $scope.$parent.users.user = res.user;
-    //   });
-    // }
 
   $urlRouterProvider.otherwise("/");
 }
