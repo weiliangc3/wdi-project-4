@@ -47152,11 +47152,13 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
   self.createTournament   = createTournament;
   self.deleteTournament   = deleteTournament;
   self.joinTournament     = joinTournament;
+  self.confirmPlayer      = confirmPlayer;
 
   self.tournaments    = [];
   self.tournament     = null;
-  self.interested     = false;
-  self.participating  = false;
+  self.isInterested     = false;
+  self.isParticipating  = false;
+  self.isCreator      = false;
   self.currentUserId  = $scope.$parent.Users.currentUser._id;
   self.currentUser  = $scope.$parent.Users.currentUser;
 
@@ -47167,14 +47169,17 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
       self.tournament = res.tournament;
       for (i=0; i < self.tournament.players.length; i++){
         if (self.tournament.players[i]._id === self.currentUserId) {
-          self.participating  = true;
-          self.interested     = true;
+          self.isParticipating  = true;
+          self.isInterested     = true;
         }
       }
       for (i=0; i < self.tournament.unconfirmedPlayers.length; i++){
         if (self.tournament.unconfirmedPlayers[i]._id === self.currentUserId) {
-          self.interested     = true;
+          self.isInterested     = true;
         }
+      }
+      if (self.tournament.creator._id === self.currentUserId){
+        self.isCreator = true;
       }
     });
   }
@@ -47212,7 +47217,27 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
     self.tournament.unconfirmedPlayers.push(self.currentUser);
     Tournament.update({id: self.tournament._id} ,self.tournament, function(data){
       console.log(data);
-      self.interested = true;
+      self.isInterested = true;
+    });
+  }
+
+  function confirmPlayer(id){
+    console.log("Confirming!");
+    User.get({id: id}, function(res){
+      console.log("response is:", res);
+      var user = res.user;
+      var indexToRemove = self.tournament.unconfirmedPlayers.indexOf(id);
+      self.tournament.unconfirmedPlayers.splice(indexToRemove, 1);
+      self.tournament.players.push(user);
+      for (i=0;i<(tournament.players.length-1);i++){
+        self.tournament.matches.push({
+          played: false,
+          players: [self.tournament.players[i], user]
+        });
+      }
+      Tournament.update({id: self.tournament._id} , self.tournament, function(data){
+        console.log("Player confirmed.");
+      });
     });
   }
 
