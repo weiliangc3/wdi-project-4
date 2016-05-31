@@ -22,7 +22,10 @@ function tournamentsShow(req, res){
   Tournament
   .findById({ _id: id })
   .populate("creator")
-  .populate("matches")
+  .populate({
+    path: 'matches',
+    populate: { path: 'players' }
+  })
   .populate("players")
   .populate("unconfirmedPlayers")
   .exec(function(err, tournament) {

@@ -47145,22 +47145,25 @@ angular
 .module('FightFederation')
 .controller('TournamentsController', TournamentsController);
 
-TournamentsController.$inject = ['User', 'Tournament', '$state', '$stateParams', '$scope'];
-function TournamentsController(User, Tournament, $state, $stateParams, $scope){
+TournamentsController.$inject = ['User', 'Tournament', 'Match', '$state', '$stateParams', '$scope'];
+function TournamentsController(User, Tournament, Match, $state, $stateParams, $scope){
   var self = this;
 
   self.createTournament   = createTournament;
   self.deleteTournament   = deleteTournament;
   self.joinTournament     = joinTournament;
   self.confirmPlayer      = confirmPlayer;
+  self.openMatchModal     = openMatchModal;
+  self.showMatchUpdate    = showMatchUpdate;
+  self.updateMatch        = updateMatch;
 
-  self.tournaments    = [];
-  self.tournament     = null;
-  self.isInterested     = false;
-  self.isParticipating  = false;
-  self.isCreator      = false;
-  self.currentUserId  = $scope.$parent.Users.currentUser._id;
-  self.currentUser  = $scope.$parent.Users.currentUser;
+  self.tournaments        = [];
+  self.tournament         = null;
+  self.isInterested       = false;
+  self.isParticipating    = false;
+  self.isCreator          = false;
+  self.currentUserId      = $scope.$parent.Users.currentUser._id;
+  self.currentUser        = $scope.$parent.Users.currentUser;
 
   getTournaments();
 
@@ -47181,6 +47184,13 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
       if (self.tournament.creator._id === self.currentUserId){
         self.isCreator = true;
       }
+
+      self.matchesPlayed = 0;
+      for (i=0; i < self.tournament.matches.length; i++){
+        if (self.tournament.matches[i].played) self.matchesPlayed++;
+      }
+
+      console.log(self.tournament);
     });
   }
 
@@ -47229,7 +47239,7 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
       var indexToRemove = self.tournament.unconfirmedPlayers.indexOf(id);
       self.tournament.unconfirmedPlayers.splice(indexToRemove, 1);
       self.tournament.players.push(user);
-      for (i=0;i<(tournament.players.length-1);i++){
+      for (i=0;i<(self.tournament.players.length-1);i++){
         self.tournament.matches.push({
           played: false,
           players: [self.tournament.players[i], user]
@@ -47241,8 +47251,39 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
     });
   }
 
+  function openMatchModal(match, index){
+    self.match = match;
+    self.matchIndex = index;
+    console.log(match);
+    self.showUpdate = false;
+    $("#modal-1").prop('checked', true);
+  }
+
+  function showMatchUpdate(){
+    self.showUpdate = true;
+  }
+
+  function updateMatch(){
+    console.log("firing");
+
+    self.tournament.matches[self.matchIndex]= self.match;
+    self.tournament.matches[self.matchIndex].played = true;
+    self.tournament.matches[self.matchIndex].recordedBy = self.currentUser;
+
+    Tournament.update({id: self.tournament._id} , self.tournament, function(data){
+      console.log("Attempted Update");
+      console.log(self.tournament.matches[self.matchIndex]);
+    });
+
+    // Match.get({id: self.match._id}, function(data){
+    //   console.log(data);
+    // });
+  }
+
+
 
   // Scroll on Page
+
   (function (jQuery) {
     jQuery.mark = {
       jump: function (options) {
@@ -47268,9 +47309,27 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
     };
   })(jQuery);
 
-
   jQuery(function(){
     jQuery.mark.jump();
+  });
+
+  // Modal
+  $(function() {
+    $("#modal-1").on("change", function() {
+      if ($(this).is(":checked")) {
+        $("body").addClass("modal-open");
+      } else {
+        $("body").removeClass("modal-open");
+      }
+    });
+
+    $(".modal-fade-screen, .modal-close").on("click", function() {
+      $(".modal-state:checked").prop("checked", false).change();
+    });
+
+    $(".modal-inner").on("click", function(e) {
+      e.stopPropagation();
+    });
   });
 
 }

@@ -44,13 +44,46 @@
     </section>
     <section>
       <h3 id="scroll-link-2">Current Standings</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum aliquid necessitatibus, repudiandae veniam labore, consequatur maiores dolore unde non deleniti, aliquam minima ex nulla error eveniet vel tempore, in incidunt?</p>
+      <p>Matches played: {{tournaments.matchesPlayed}}</p>
       <a class="scroll-on-page-link" href="#scroll-on-page-top">Back to top</a>
     </section>
     <section>
       <h3 id="scroll-link-3">Matches</h3>
-      <p>lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum aliquid necessitatibus, repudiandae veniam labore, consequatur maiores dolore unde non deleniti, aliquam minima ex nulla error eveniet vel tempore, in incidunt? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum aliquid necessitatibus, repudiandae veniam labore, consequatur maiores dolore unde non deleniti, aliquam minima ex nulla error eveniet vel tempore, in incidunt? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum aliquid necessitatibus, repudiandae veniam labore, consequatur maiores dolore unde non deleniti, aliquam minima ex nulla error eveniet vel tempore, in incidunt?</p>
+      <ul>
+        <li ng-repeat="match in tournaments.tournament.matches track by $index" ng-click="tournaments.openMatchModal(match, $index)" class="link">
+          {{match.players[0].local.username}} vs {{match.players[1].local.username}}
+        </li>
+      </ul>
       <a class="scroll-on-page-link" href="#scroll-on-page-top">Back to top</a>
     </section>
   </article>
+</div>
+
+<div class="modal">
+  <label for="modal-1">
+    <div class="modal-trigger"></div>
+  </label>
+  <input class="modal-state" id="modal-1" type="checkbox" />
+  <div class="modal-fade-screen">
+    <div class="modal-inner">
+      <div class="modal-close" for="modal-1"></div>
+      <h1>{{tournaments.tournament.name}}</h1>
+
+      <p class="modal-intro" ng-hide="tournaments.match.played">Players: {{tournaments.match.players[0].local.username}} vs {{tournaments.match.players[1].local.username}}</p>
+      <p class="modal-intro" ng-hide="tournaments.match.played">The results for this match has not been recorded</p>
+      <p class="modal-intro link" ng-hide="tournaments.match.played" ng-click="tournaments.showMatchUpdate()">Update this match?</p>
+      <form ng-submit="tournaments.updateMatch()" ng-show="tournaments.showUpdate">
+        <strong>Scores</strong>
+        <div><label for="player0score">{{tournaments.match.players[0].local.username}}:</label><br>
+        <input type="number" id="player0score" ng-model="tournaments.match.score[0]"></div>
+        <div><label for="player0score">{{tournaments.match.players[1].local.username}}:</label><br>
+        <input type="number" id="player0score" ng-model="tournaments.match.score[1]"></div>
+        <input type="submit" value="Update Match">
+      </form>
+
+<p class="modal-intro" ng-show="tournaments.match.played">Match Played<p>
+      <p class="modal-intro" ng-show="tournaments.match.played">{{tournaments.match.players[0].local.username}}: {{tournaments.match.score[0]}}</p>
+      <p class="modal-intro" ng-show="tournaments.match.played">{{tournaments.match.players[1].local.username}}: {{tournaments.match.score[1]}}</p>
+    </div>
+  </div>
 </div>
