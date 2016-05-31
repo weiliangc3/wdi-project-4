@@ -15,7 +15,7 @@ router.route('/users')
 
 router.route('/users/:id')
 .get(usersController.usersShow)
-.patch(usersController.usersUpdate)
+.put(usersController.usersUpdate)
 .delete(usersController.usersDelete);
 
 router.route('/users/addTournament')
@@ -27,7 +27,7 @@ router.route('/matches')
 
 router.route('/matches/:id')
 .get(matchesController.matchesShow)
-.patch(matchesController.matchesUpdate)
+.put(matchesController.matchesUpdate)
 .delete(matchesController.matchesDelete);
 
 router.route('/tournaments')
@@ -36,7 +36,7 @@ router.route('/tournaments')
 
 router.route('/tournaments/:id')
 .get(tournamentsController.tournamentsShow)
-.patch(tournamentsController.tournamentsUpdate)
+.put(tournamentsController.tournamentsUpdate)
 .delete(tournamentsController.tournamentsDelete);
 
 module.exports = router;

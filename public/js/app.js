@@ -47149,21 +47149,33 @@ TournamentsController.$inject = ['User', 'Tournament', '$state', '$stateParams',
 function TournamentsController(User, Tournament, $state, $stateParams, $scope){
   var self = this;
 
-  self.tournaments = [];
-  self.createTournament = createTournament;
-  self.deleteTournament = deleteTournament;
-  self.tournament = null;
-  self.participating = false;
-  self.currentUser = $scope.$parent.Users.currentUser;
-  console.log(self.currentUser);
+  self.createTournament   = createTournament;
+  self.deleteTournament   = deleteTournament;
+  self.joinTournament     = joinTournament;
+
+  self.tournaments    = [];
+  self.tournament     = null;
+  self.interested     = false;
+  self.participating  = false;
+  self.currentUserId  = $scope.$parent.Users.currentUser._id;
+  self.currentUser  = $scope.$parent.Users.currentUser;
 
   getTournaments();
 
   if ($stateParams.tournamentId){
     self.user = Tournament.get({ id: $stateParams.tournamentId }, function(res){
       self.tournament = res.tournament;
-      console.log(res.tournament);
-      console.log(res.tournament.players.indexOf(self.currentUser));
+      for (i=0; i < self.tournament.players.length; i++){
+        if (self.tournament.players[i]._id === self.currentUserId) {
+          self.participating  = true;
+          self.interested     = true;
+        }
+      }
+      for (i=0; i < self.tournament.unconfirmedPlayers.length; i++){
+        if (self.tournament.unconfirmedPlayers[i]._id === self.currentUserId) {
+          self.interested     = true;
+        }
+      }
     });
   }
 
@@ -47193,6 +47205,15 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
   function deleteTournament(id){
     Tournament.delete({id: id}, function(){
       getTournaments();
+    });
+  }
+
+
+  function joinTournament(){
+    self.tournament.unconfirmedPlayers.push(self.currentUser);
+    Tournament.save({tournament: self.tournament}, function(data){
+      console.log(data);
+      self.interested = true;
     });
   }
 
@@ -47255,10 +47276,6 @@ function UsersController(User, CurrentUser, $state, $stateParams){
     });
   }
 
-  if ($stateParams.tournamentId){
-    console.log("Found a tournament active!");
-  }
-
   function getUsers() {
     User.query(function(data){
       self.all = data.users;
@@ -47270,7 +47287,7 @@ function UsersController(User, CurrentUser, $state, $stateParams){
     if (token){
       self.currentUser = CurrentUser.getUser();
       self.getUsers();
-      $state.go("home");
+      $state.go("tournaments");
     }
   }
 
@@ -47337,7 +47354,8 @@ function Tournament($resource, API){
       'save':      { method: 'POST' },
       'query':     { method: 'GET', isArray: true},
       'remove':    { method: 'DELETE' },
-      'delete':    { method: 'DELETE' }
+      'delete':    { method: 'DELETE' },
+      'update': { method: 'PUT' }
     }
   );
 }
