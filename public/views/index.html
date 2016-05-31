@@ -13,14 +13,14 @@
   <header>
     <nav class="js-menu sliding-panel-content">
       <ul>
-        <li><a href="/home" ui-sref="home">Home</a></li>
         <!-- Before login -->
+        <li ng-hide="Users.checkLoggedIn()"><a href="/home" ui-sref="home">Home</a></li>
         <li><a href="/login" ui-sref="login" ng-hide="Users.checkLoggedIn()">Login</a></li>
         <li><a href="/register" ui-sref="register" ng-hide="Users.checkLoggedIn()">Register</a></li>
         <!-- After login -->
-        <li><a href="/profile" ui-sref="user({ userId: Users.currentUser._id })" ng-show="Users.checkLoggedIn()">User Profile</a></li>
         <li><a href="/tournaments" ui-sref="tournaments" ng-show="Users.checkLoggedIn()">Tournament Dashboard</a></li>
         <li><a href="/tournaments" ui-sref="createTournament" ng-show="Users.checkLoggedIn()">Create Tournament</a></li>
+        <li><a href="/profile" ui-sref="user({ userId: Users.currentUser._id })" ng-show="Users.checkLoggedIn()">User Profile</a></li>
         <li><a href="/register" ng-click="Users.logout()" ng-show="Users.checkLoggedIn()">Logout</a></li>
       </ul>
     </nav>
@@ -38,7 +38,28 @@
 
 
   <main ui-view>
-    <h2>We are locating your page...</h2>
+    <h2>Welcome.</h2>
+    <p>
+       Remember, this is your life. And it's ending.
+    </p>
+    <p>
+       One.
+    </p>
+    <p>
+      Minute.
+    </p>
+    <p>
+      At.
+    </p>
+    <p>
+      A.
+    </p>
+    <p>
+      Time.
+    </p>
+    <p>
+      In the mean time, we're finding your page.
+    </p>
   </main>
 </body>
 </html>

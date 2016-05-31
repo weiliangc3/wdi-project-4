@@ -47153,12 +47153,17 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
   self.createTournament = createTournament;
   self.deleteTournament = deleteTournament;
   self.tournament = null;
+  self.participating = false;
+  self.currentUser = $scope.$parent.Users.currentUser;
+  console.log(self.currentUser);
 
   getTournaments();
 
   if ($stateParams.tournamentId){
     self.user = Tournament.get({ id: $stateParams.tournamentId }, function(res){
       self.tournament = res.tournament;
+      console.log(res.tournament);
+      console.log(res.tournament.players.indexOf(self.currentUser));
     });
   }
 

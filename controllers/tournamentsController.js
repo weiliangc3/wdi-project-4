@@ -19,7 +19,13 @@ function tournamentsCreate(req, res){
 function tournamentsShow(req, res){
   var id = req.params.id;
 
-  Tournament.findById({ _id: id }, function(err, tournament) {
+  Tournament
+  .findById({ _id: id })
+  .populate("creator")
+  .populate("matches")
+  .populate("players")
+  .populate("unconfirmedPlayers")
+  .exec(function(err, tournament) {
     if (err) return res.status(500).json(err);
     if (!tournament) return res.status(404).json(err);
     res.status(200).json({ tournament: tournament });
