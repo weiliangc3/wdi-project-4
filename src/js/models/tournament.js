@@ -12,7 +12,7 @@ function Tournament($resource, API){
       'query':     { method: 'GET', isArray: true},
       'remove':    { method: 'DELETE' },
       'delete':    { method: 'DELETE' },
-      'update': { method: 'PUT' }
+      'update':    { method: 'PUT' }
     }
   );
 }

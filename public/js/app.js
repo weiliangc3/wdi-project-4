@@ -47208,10 +47208,9 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
     });
   }
 
-
   function joinTournament(){
     self.tournament.unconfirmedPlayers.push(self.currentUser);
-    Tournament.save({tournament: self.tournament}, function(data){
+    Tournament.update({id: self.tournament._id} ,self.tournament, function(data){
       console.log(data);
       self.interested = true;
     });
@@ -47336,7 +47335,8 @@ function Match($resource, API){
       'save':      { method: 'POST' },
       'query':     { method: 'GET', isArray: true},
       'remove':    { method: 'DELETE' },
-      'delete':    { method: 'DELETE' }
+      'delete':    { method: 'DELETE' },
+      'update':    { method: 'PUT' }
     }
   );
 }
@@ -47355,7 +47355,7 @@ function Tournament($resource, API){
       'query':     { method: 'GET', isArray: true},
       'remove':    { method: 'DELETE' },
       'delete':    { method: 'DELETE' },
-      'update': { method: 'PUT' }
+      'update':    { method: 'PUT' }
     }
   );
 }
@@ -47374,6 +47374,7 @@ function User($resource, API){
       'query':     { method: 'GET', isArray: false},
       'remove':    { method: 'DELETE' },
       'delete':    { method: 'DELETE' },
+      'update':    { method: 'PUT' },
       'register':  {
         url: API + "/register",
         method: "POST"

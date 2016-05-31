@@ -65,10 +65,9 @@ function TournamentsController(User, Tournament, $state, $stateParams, $scope){
     });
   }
 
-
   function joinTournament(){
     self.tournament.unconfirmedPlayers.push(self.currentUser);
-    Tournament.save({tournament: self.tournament}, function(data){
+    Tournament.update({id: self.tournament._id} ,self.tournament, function(data){
       console.log(data);
       self.interested = true;
     });

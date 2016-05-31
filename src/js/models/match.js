@@ -11,7 +11,8 @@ function Match($resource, API){
       'save':      { method: 'POST' },
       'query':     { method: 'GET', isArray: true},
       'remove':    { method: 'DELETE' },
-      'delete':    { method: 'DELETE' }
+      'delete':    { method: 'DELETE' },
+      'update':    { method: 'PUT' }
     }
   );
 }
