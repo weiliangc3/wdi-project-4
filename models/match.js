@@ -2,11 +2,11 @@ var mongoose = require("mongoose");
 var Schema   = mongoose.Schema;
 
 var matchSchema = mongoose.Schema({
-  score: [ Number ],
-  played: Boolean,
-  players: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+  score:      [ Number ],
+  played:     Boolean,
+  players:    [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
   recordedBy: String,
-  winner: String
+  winner:     String
 }, {
   timestamps: true
 });

@@ -190,7 +190,6 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
     console.log("Checking Winner");
     if (self.matchesPlayed === self.tournament.matches.length){
       self.allMatchesPlayed = true;
-      console.log("all matches played?", self.allMatchesPlayed);
     }
   }
 
