@@ -2,9 +2,9 @@
 <p>
   Status: {{tournaments.tournament.finished ? "Over" : "Ongoing" }}
 </p>
-  <div class="link" ng-if="tournaments.isInterested === false" ng-click="tournaments.joinTournament()">Join tournament.</div>
-  <!-- <div class="link" ng-if="tournaments.isParticipating === true">Manage tournament.</div>
-  <div class="link" ng-if="tournaments.isParticipating === true">Delete tournament.</div> -->
+<div class="link" ng-if="tournaments.isInterested === false" ng-click="tournaments.joinTournament()">Join tournament.</div>
+<!-- <div class="link" ng-if="tournaments.isParticipating === true">Manage tournament.</div>
+<div class="link" ng-if="tournaments.isParticipating === true">Delete tournament.</div> -->
 
 <div class="scroll-on-page">
   <aside id="scroll-on-page-top">
@@ -14,6 +14,7 @@
   </aside>
 
   <article>
+
     <section>
       <h3 id="scroll-link-1">Tournament Details</h3>
       <h4>{{tournaments.tournament.name}}</h4>
@@ -32,30 +33,37 @@
       <ul>
         <li ng-repeat="player in tournaments.tournament.players">{{player.local.username}}</li>
       </ul>
-      <p>
+      <p ng-if="tournaments.tournament.unconfirmedPlayers.length > 0">
         Current players who are awaiting approval:
       </p>
-      <ul>
+      <ul ng-if="tournaments.tournament.unconfirmedPlayers.length > 0">
         <li ng-repeat="player in tournaments.tournament.unconfirmedPlayers">
           {{player.local.username}}<span ng-if="tournaments.isCreator" ng-click="tournaments.confirmPlayer(player._id)" class="link">, confirm this player?</span>
         </li>
       </ul>
       <a class="scroll-on-page-link" href="#scroll-on-page-top">Back to top</a>
     </section>
+
     <section>
       <h3 id="scroll-link-2">Current Standings</h3>
       <p>Matches played: {{tournaments.matchesPlayed}}</p>
+      <ul>
+        <li></li>
+      </ul>
       <a class="scroll-on-page-link" href="#scroll-on-page-top">Back to top</a>
     </section>
+
     <section>
       <h3 id="scroll-link-3">Matches</h3>
       <ul>
         <li ng-repeat="match in tournaments.tournament.matches track by $index" ng-click="tournaments.openMatchModal(match, $index)" class="link">
           {{match.players[0].local.username}} vs {{match.players[1].local.username}}
+          <span ng-if="match.played">: {{match.score[0]}}-{{match.score[1]}}</span>
         </li>
       </ul>
       <a class="scroll-on-page-link" href="#scroll-on-page-top">Back to top</a>
     </section>
+
   </article>
 </div>
 
@@ -69,19 +77,24 @@
       <div class="modal-close" for="modal-1"></div>
       <h1>{{tournaments.tournament.name}}</h1>
 
-      <p class="modal-intro" ng-hide="tournaments.match.played">Players: {{tournaments.match.players[0].local.username}} vs {{tournaments.match.players[1].local.username}}</p>
+      <p class="modal-intro">{{tournaments.match.players[0].local.username}} vs {{tournaments.match.players[1].local.username}}</p>
       <p class="modal-intro" ng-hide="tournaments.match.played">The results for this match has not been recorded</p>
       <p class="modal-intro link" ng-hide="tournaments.match.played" ng-click="tournaments.showMatchUpdate()">Update this match?</p>
       <form ng-submit="tournaments.updateMatch()" ng-show="tournaments.showUpdate">
         <strong>Scores</strong>
-        <div><label for="player0score">{{tournaments.match.players[0].local.username}}:</label><br>
-        <input type="number" id="player0score" ng-model="tournaments.match.score[0]"></div>
-        <div><label for="player0score">{{tournaments.match.players[1].local.username}}:</label><br>
-        <input type="number" id="player0score" ng-model="tournaments.match.score[1]"></div>
+        <div>
+          <label for="player0score">{{tournaments.match.players[0].local.username}}:</label><br>
+          <input type="number" id="player0score" ng-model="tournaments.match.score[0]">
+        </div>
+        <div>
+          <label for="player0score">{{tournaments.match.players[1].local.username}}:</label><br>
+          <input type="number" id="player0score" ng-model="tournaments.match.score[1]">
+        </div>
         <input type="submit" value="Update Match">
       </form>
 
-<p class="modal-intro" ng-show="tournaments.match.played">Match Played<p>
+      <p class="modal-intro" ng-show="tournaments.match.played">Match Played</p>
+      <p class="modal-intro" ng-show="tournaments.match.played">The winner was {{tournaments.match.winner}}</p>
       <p class="modal-intro" ng-show="tournaments.match.played">{{tournaments.match.players[0].local.username}}: {{tournaments.match.score[0]}}</p>
       <p class="modal-intro" ng-show="tournaments.match.played">{{tournaments.match.players[1].local.username}}: {{tournaments.match.score[1]}}</p>
     </div>

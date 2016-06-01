@@ -25,6 +25,10 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   getTournaments();
 
   if ($stateParams.tournamentId){
+    getTournament();
+  }
+
+  function getTournament(){
     self.user = Tournament.get({ id: $stateParams.tournamentId }, function(res){
       self.tournament = res.tournament;
       for (i=0; i < self.tournament.players.length; i++){
@@ -48,7 +52,28 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
       }
 
       console.log(self.tournament);
+      refreshStandings();
     });
+  }
+
+  function refreshStandings(){
+    self.playerStandings = self.tournament.players;
+    for (i=0; i<self.playerStandings.length ; i++){
+      self.playerStandings[i].points = self.tournament.playerPoints[i];
+      self.playerStandings[i].wins   = self.tournament.playerWins[i];
+      self.playerStandings[i].losses = self.tournament.playerLosses[i];
+      self.playerStandings[i].draws  = self.tournament.playerDraws[i];
+    }
+    function compare(a,b){
+      if (a.points < b.points)
+        return -1;
+      else if (a.points > b.points)
+        return 1;
+      else
+        return 0;
+    }
+    self.playerStandings.sort(compare);
+    console.log(self.playerStandings);
   }
 
   function getTournaments(){
@@ -128,8 +153,6 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   }
 
   function updateMatch(){
-    console.log("firing");
-
     self.tournament.matches[self.matchIndex]              = self.match;
     self.tournament.matches[self.matchIndex].played       = true;
     self.tournament.matches[self.matchIndex].recordedBy   = self.currentUser;
@@ -137,8 +160,6 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
     var secondPlayer  = self.tournament.matches[self.matchIndex].players[1];
     var playerOnePos  = self.tournament.players.map(function(x) {return x._id; }).indexOf(firstPlayer._id);
     var playerTwoPos  = self.tournament.players.map(function(x) {return x._id; }).indexOf(secondPlayer._id);
-    console.log(playerOnePos);
-    console.log(playerTwoPos);
     if (self.match.score[0] === self.match.score[1]) {
       self.tournament.playerDraws[playerOnePos]++ ;
       self.tournament.playerDraws[playerTwoPos]++ ;
@@ -161,10 +182,11 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
 
     console.log("update", self.tournament);
 
-    // Tournament.update({id: self.tournament._id} , self.tournament, function(data){
-    //   console.log("Attempted Update");
-    //   console.log(self.tournament.matches[self.matchIndex]);
-    // });
+    Tournament.update({id: self.tournament._id} , self.tournament, function(data){
+      console.log("Attempted Update");
+      console.log(self.tournament.matches[self.matchIndex]);
+      refreshStandings();
+    });
   }
 
 
