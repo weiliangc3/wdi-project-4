@@ -12,6 +12,9 @@ var tournamentSchema = mongoose.Schema({
   unconfirmedPlayers: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
   players: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
   matches: [Match.schema],
+  playerWins: [Number],
+  playerLosses: [Number],
+  playerDraws: [Number],
   playerPoints: [Number],
   finalResults: [Number],
 

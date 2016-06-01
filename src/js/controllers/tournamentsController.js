@@ -62,6 +62,10 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
     self.tournament.creator = currentUserId;
     self.tournament.players = [];
     self.tournament.players.push(currentUserId);
+    self.tournament.playerWins = [0];
+    self.tournament.playerLosses = [0];
+    self.tournament.playerDraws = [0];
+    self.tournament.playerPoints = [0];
     Tournament.save({ tournament: self.tournament
     },
     function(data){
@@ -89,13 +93,17 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   }
 
   function confirmPlayer(id){
-    console.log("Confirming!");
     User.get({id: id}, function(res){
-      console.log("response is:", res);
       var user = res.user;
-      var indexToRemove = self.tournament.unconfirmedPlayers.indexOf(id);
-      self.tournament.unconfirmedPlayers.splice(indexToRemove, 1);
+      var elementPos = self.tournament.unconfirmedPlayers.map(function(x) {return x._id; }).indexOf(id);
+      // var objectFound = self.tournament.unconfirmedPlayers[elementPos];
+      // Solution commented for future reference
+      self.tournament.unconfirmedPlayers.splice(elementPos, 1);
       self.tournament.players.push(user);
+      self.tournament.playerWins.push(0);
+      self.tournament.playerLosses.push(0);
+      self.tournament.playerDraws.push(0);
+      self.tournament.playerPoints.push(0);
       for (i=0;i<(self.tournament.players.length-1);i++){
         self.tournament.matches.push({
           played: false,
@@ -103,7 +111,6 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
         });
       }
       Tournament.update({id: self.tournament._id} , self.tournament, function(data){
-        console.log("Player confirmed.");
       });
     });
   }
@@ -123,17 +130,40 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   function updateMatch(){
     console.log("firing");
 
-    self.tournament.matches[self.matchIndex]= self.match;
-    self.tournament.matches[self.matchIndex].played = true;
-    self.tournament.matches[self.matchIndex].recordedBy = self.currentUser;
+    self.tournament.matches[self.matchIndex]              = self.match;
+    self.tournament.matches[self.matchIndex].played       = true;
+    self.tournament.matches[self.matchIndex].recordedBy   = self.currentUser;
+    var firstPlayer   = self.tournament.matches[self.matchIndex].players[0];
+    var secondPlayer  = self.tournament.matches[self.matchIndex].players[1];
+    var playerOnePos  = self.tournament.players.map(function(x) {return x._id; }).indexOf(firstPlayer._id);
+    var playerTwoPos  = self.tournament.players.map(function(x) {return x._id; }).indexOf(secondPlayer._id);
+    console.log(playerOnePos);
+    console.log(playerTwoPos);
+    if (self.match.score[0] === self.match.score[1]) {
+      self.tournament.playerDraws[playerOnePos]++ ;
+      self.tournament.playerDraws[playerTwoPos]++ ;
+      self.tournament.playerPoints[playerOnePos]+= 2 ;
+      self.tournament.playerPoints[playerTwoPos]+= 2 ;
+      self.tournament.matches[self.matchIndex].winner = "no one";
+    } else if (self.match.score[0] > self.match.score[1]) {
+      self.tournament.playerWins[playerOnePos]++ ;
+      self.tournament.playerLosses[playerTwoPos]++ ;
+      self.tournament.playerPoints[playerOnePos]+= 6 ;
+      self.tournament.playerPoints[playerTwoPos]+= 1 ;
+      self.tournament.matches[self.matchIndex].winner = firstPlayer.local.username;
+    } else if (self.match.score[0] < self.match.score[1]) {
+      self.tournament.playerLosses[playerOnePos]++ ;
+      self.tournament.playerWins[playerTwoPos]++ ;
+      self.tournament.playerPoints[playerOnePos]+= 1 ;
+      self.tournament.playerPoints[playerTwoPos]+= 6 ;
+      self.tournament.matches[self.matchIndex].winner = secondPlayer.local.username;
+    }
 
-    Tournament.update({id: self.tournament._id} , self.tournament, function(data){
-      console.log("Attempted Update");
-      console.log(self.tournament.matches[self.matchIndex]);
-    });
+    console.log("update", self.tournament);
 
-    // Match.get({id: self.match._id}, function(data){
-    //   console.log(data);
+    // Tournament.update({id: self.tournament._id} , self.tournament, function(data){
+    //   console.log("Attempted Update");
+    //   console.log(self.tournament.matches[self.matchIndex]);
     // });
   }
 
