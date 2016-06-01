@@ -47164,6 +47164,7 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   self.isCreator          = false;
   self.currentUserId      = $scope.$parent.Users.currentUser._id;
   self.currentUser        = $scope.$parent.Users.currentUser;
+  self.allMatchesPlayed   = false;
 
   getTournaments();
 
@@ -47196,11 +47197,12 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
 
       console.log(self.tournament);
       refreshStandings();
+      checkMatchesFinished();
     });
   }
 
   function refreshStandings(){
-    self.playerStandings = self.tournament.players;
+    self.playerStandings = $.extend( true, [], self.tournament.players);
     for (i=0; i<self.playerStandings.length ; i++){
       self.playerStandings[i].points = self.tournament.playerPoints[i];
       self.playerStandings[i].wins   = self.tournament.playerWins[i];
@@ -47209,14 +47211,13 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
     }
     function compare(a,b){
       if (a.points < b.points)
-        return -1;
+      return 1;
       else if (a.points > b.points)
-        return 1;
+      return -1;
       else
-        return 0;
+      return 0;
     }
     self.playerStandings.sort(compare);
-    console.log(self.playerStandings);
   }
 
   function getTournaments(){
@@ -47255,7 +47256,6 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   function joinTournament(){
     self.tournament.unconfirmedPlayers.push(self.currentUser);
     Tournament.update({id: self.tournament._id} ,self.tournament, function(data){
-      console.log(data);
       self.isInterested = true;
     });
   }
@@ -47286,7 +47286,6 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   function openMatchModal(match, index){
     self.match = match;
     self.matchIndex = index;
-    console.log(match);
     self.showUpdate = false;
     $("#modal-1").prop('checked', true);
   }
@@ -47298,7 +47297,7 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   function updateMatch(){
     self.tournament.matches[self.matchIndex]              = self.match;
     self.tournament.matches[self.matchIndex].played       = true;
-    self.tournament.matches[self.matchIndex].recordedBy   = self.currentUser;
+    self.tournament.matches[self.matchIndex].recordedBy   = self.currentUser.local.username;
     var firstPlayer   = self.tournament.matches[self.matchIndex].players[0];
     var secondPlayer  = self.tournament.matches[self.matchIndex].players[1];
     var playerOnePos  = self.tournament.players.map(function(x) {return x._id; }).indexOf(firstPlayer._id);
@@ -47312,27 +47311,31 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
     } else if (self.match.score[0] > self.match.score[1]) {
       self.tournament.playerWins[playerOnePos]++ ;
       self.tournament.playerLosses[playerTwoPos]++ ;
-      self.tournament.playerPoints[playerOnePos]+= 6 ;
+      self.tournament.playerPoints[playerOnePos]+= 4 ;
       self.tournament.playerPoints[playerTwoPos]+= 1 ;
       self.tournament.matches[self.matchIndex].winner = firstPlayer.local.username;
     } else if (self.match.score[0] < self.match.score[1]) {
       self.tournament.playerLosses[playerOnePos]++ ;
       self.tournament.playerWins[playerTwoPos]++ ;
       self.tournament.playerPoints[playerOnePos]+= 1 ;
-      self.tournament.playerPoints[playerTwoPos]+= 6 ;
+      self.tournament.playerPoints[playerTwoPos]+= 4 ;
       self.tournament.matches[self.matchIndex].winner = secondPlayer.local.username;
     }
 
-    console.log("update", self.tournament);
-
     Tournament.update({id: self.tournament._id} , self.tournament, function(data){
-      console.log("Attempted Update");
-      console.log(self.tournament.matches[self.matchIndex]);
+      self.matchesPlayed++;
       refreshStandings();
+      checkMatchesFinished();
     });
   }
 
-
+  function checkMatchesFinished(){
+    console.log("Checking Winner");
+    if (self.matchesPlayed === self.tournament.matches.length){
+      self.allMatchesPlayed = true;
+      console.log("all matches played?", self.allMatchesPlayed);
+    }
+  }
 
   // Scroll on Page
 
@@ -47443,6 +47446,7 @@ function UsersController(User, CurrentUser, $state, $stateParams){
     self.currentUser = null;
     self.user        = null;
     CurrentUser.clearUser();
+    $state.go("home");
   }
 
   function checkLoggedIn() {

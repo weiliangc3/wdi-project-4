@@ -55,6 +55,7 @@ function UsersController(User, CurrentUser, $state, $stateParams){
     self.currentUser = null;
     self.user        = null;
     CurrentUser.clearUser();
+    $state.go("home");
   }
 
   function checkLoggedIn() {

@@ -5,7 +5,7 @@ var matchSchema = mongoose.Schema({
   score: [ Number ],
   played: Boolean,
   players: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
-  recordedBy: { type: mongoose.Schema.ObjectId, ref: 'User' },
+  recordedBy: String,
   winner: String
 }, {
   timestamps: true

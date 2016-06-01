@@ -25,7 +25,9 @@
         {{tournaments.tournament.description}}
       </p>
       <p>
-        Organised by {{tournaments.tournament.creator.local.username}}.
+        Organised by {{tournaments.tournament.creator.local.username}}
+        <span ng-if="tournaments.tournament.endDate">, this tournament will run until {{tournaments.tournament.endDate}}.</span>
+        <span ng-if="!tournaments.tournament.endDate">.</span>
       </p>
       <p>
         Current players:
@@ -48,7 +50,7 @@
       <h3 id="scroll-link-2">Current Standings</h3>
       <p>Matches played: {{tournaments.matchesPlayed}}</p>
       <ul>
-        <li></li>
+        <li ng-repeat="player in tournaments.playerStandings">{{player.local.username}}: {{player.points}} points with {{player.wins}} wins, {{player.losses}} losses and {{player.draws}} draws</li>
       </ul>
       <a class="scroll-on-page-link" href="#scroll-on-page-top">Back to top</a>
     </section>

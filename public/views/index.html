@@ -21,7 +21,7 @@
         <li><a href="/tournaments" ui-sref="tournaments" ng-show="Users.checkLoggedIn()">Tournament Dashboard</a></li>
         <li><a href="/tournaments" ui-sref="createTournament" ng-show="Users.checkLoggedIn()">Create Tournament</a></li>
         <li><a href="/profile" ui-sref="user({ userId: Users.currentUser._id })" ng-show="Users.checkLoggedIn()">User Profile</a></li>
-        <li><a href="/register" ng-click="Users.logout()" ng-show="Users.checkLoggedIn()">Logout</a></li>
+        <li><a href="/" ng-click="Users.logout()" ng-show="Users.checkLoggedIn()">Logout</a></li>
       </ul>
     </nav>
   </header>
