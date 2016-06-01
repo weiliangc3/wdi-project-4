@@ -1,8 +1,11 @@
 <h2>{{tournaments.tournament.name}}</h2>
 <p>
-  Status: {{tournaments.tournament.finished ? "Over" : "Ongoing" }}
+  Status: {{tournaments.tournament.finished ? "Over" : "Ongoing" }},
+  Registration status: {{tournaments.tournament.open ? "Open" : "Closed"}}
 </p>
-<div class="link" ng-if="tournaments.isInterested === false" ng-click="tournaments.joinTournament()">Join tournament.</div>
+<div class="link" ng-if="tournaments.isInterested === false && tournament.open === true" ng-click="tournaments.joinTournament()">Join tournament</div>
+<div class="link" ng-if="tournaments.isCreator === true && tournament.open === true" ng-click="tournaments.closeTournament()">Close player registration for this tournament</div>
+
 <!-- <div class="link" ng-if="tournaments.isParticipating === true">Manage tournament.</div>
 <div class="link" ng-if="tournaments.isParticipating === true">Delete tournament.</div> -->
 

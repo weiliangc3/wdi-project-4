@@ -13,6 +13,7 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   self.openMatchModal     = openMatchModal;
   self.showMatchUpdate    = showMatchUpdate;
   self.updateMatch        = updateMatch;
+  self.closeTournament    = closeTournament;
 
   self.tournaments        = [];
   self.tournament         = null;
@@ -44,6 +45,8 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
         }
       }
       if (self.tournament.creator._id === self.currentUserId){
+        console.log(self.tournament.creator._id);
+        console.log(self.currentUserId);
         self.isCreator = true;
       }
 
@@ -92,6 +95,7 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
     self.tournament.playerLosses = [0];
     self.tournament.playerDraws = [0];
     self.tournament.playerPoints = [0];
+    self.tournament.open = true;
     Tournament.save({ tournament: self.tournament
     },
     function(data){
@@ -187,10 +191,13 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   }
 
   function checkMatchesFinished(){
-    console.log("Checking Winner");
     if (self.matchesPlayed === self.tournament.matches.length){
       self.allMatchesPlayed = true;
     }
+  }
+
+  function closeTournament(){
+    console.log("close tourney");
   }
 
   // Scroll on Page
