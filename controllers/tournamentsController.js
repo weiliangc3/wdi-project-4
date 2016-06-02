@@ -22,6 +22,7 @@ function tournamentsShow(req, res){
   Tournament
   .findById({ _id: id })
   .populate("creator")
+  .populate("winner")
   .populate({
     path: 'matches',
     populate: { path: 'players' }

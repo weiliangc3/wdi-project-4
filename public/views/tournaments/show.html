@@ -1,13 +1,26 @@
 <h2>{{tournaments.tournament.name}}</h2>
 <p>
-  Status: {{tournaments.tournament.finished ? "Over" : "Ongoing" }},
-  Registration status: {{tournaments.tournament.open ? "Open" : "Closed"}}
+  Status: {{!!tournaments.tournament.winner ? "Over" : "Ongoing" }}.
+  <span ng-if="!!tournaments.tournament.winner"> The winner was {{tournaments.tournament.winner.local.username}}.</span>
+  <span ng-if="!tournaments.tournament.winner">Registration status: {{tournaments.tournament.open ? "Open" : "Closed"}}.</span>
 </p>
-<div class="link" ng-if="!tournaments.isInterested && !!tournaments.tournment.open" ng-click="tournaments.joinTournament()">Join tournament</div>
+<p ng-if="tournaments.tournament.roundRobinFinished">
+  The round robin phase is over.
+</p>
+
+<p ng-show="tournaments.tournament.players.length > 1 && tournaments.allMatchesPlayed">
+  All matches have been played.
+</p>
+
+<p ng-if="tournaments.tournament.roundRobinFinished && !tournaments.allMatchesPlayed">
+  Tie breakers have yet to be played
+</p>
+
+<div class="link" ng-if="!tournaments.isInterested && !!tournaments.tournament.open" ng-click="tournaments.joinTournament()">Join tournament</div>
 
 <div class="link" ng-if="!!tournaments.isCreator && !!tournaments.tournament.open" ng-click="tournaments.closeTournament()">Close player registration for this tournament</div>
 
-<div class="link" ng-if="!!tournaments.isCreator && !tournaments.tournament.open" ng-click="tournaments.closeTournament()">Calculate results for this tournament</div>
+<div class="link" ng-if="!!tournaments.isCreator && !tournaments.tournament.open && !tournaments.tournament.roundRobinFinished" ng-click="tournaments.closeRoundRobin()">Close round robin games</div>
 
 <div class="scroll-on-page">
   <aside id="scroll-on-page-top">
@@ -28,9 +41,7 @@
         {{tournaments.tournament.description}}
       </p>
       <p>
-        Organised by {{tournaments.tournament.creator.local.username}}
-        <span ng-if="tournaments.tournament.endDate">, this tournament will run until {{tournaments.tournament.endDate}}.</span>
-        <span ng-if="!tournaments.tournament.endDate">.</span>
+        Organised by {{tournaments.tournament.creator.local.username}}<span ng-if="tournaments.tournament.endDate">, this tournament will run until {{tournaments.tournament.endDate}}</span>.
       </p>
       <p>
         Current players:
@@ -83,8 +94,17 @@
       <h1>{{tournaments.tournament.name}}</h1>
 
       <p class="modal-intro">{{tournaments.match.players[0].local.username}} vs {{tournaments.match.players[1].local.username}}</p>
+
+      <p class="modal-intro" ng-show="tournaments.match.played">Match Played</p>
+      <p class="modal-intro" ng-show="tournaments.match.played">The winner was {{tournaments.match.winner}}</p>
+      <p class="modal-intro" ng-show="tournaments.match.played">{{tournaments.match.players[0].local.username}}: {{tournaments.match.score[0]}}</p>
+      <p class="modal-intro" ng-show="tournaments.match.played">{{tournaments.match.players[1].local.username}}: {{tournaments.match.score[1]}}</p>
+
       <p class="modal-intro" ng-hide="tournaments.match.played">The results for this match has not been recorded</p>
-      <p class="modal-intro link" ng-hide="tournaments.match.played" ng-click="tournaments.showMatchUpdate()">Update this match?</p>
+      <p class="modal-intro link" ng-show="(!tournaments.match.played && tournaments.match.active)" ng-click="tournaments.showMatchUpdate()">Update this match?</p>
+
+      <!-- Add this to allow creator to edit, but needs a new tallyScore function || (tournaments.isCreator && !tournaments.tournament.winner) -->
+
       <form ng-submit="tournaments.updateMatch()" ng-show="tournaments.showUpdate">
         <strong>Scores</strong>
         <div>
@@ -98,10 +118,6 @@
         <input type="submit" value="Update Match">
       </form>
 
-      <p class="modal-intro" ng-show="tournaments.match.played">Match Played</p>
-      <p class="modal-intro" ng-show="tournaments.match.played">The winner was {{tournaments.match.winner}}</p>
-      <p class="modal-intro" ng-show="tournaments.match.played">{{tournaments.match.players[0].local.username}}: {{tournaments.match.score[0]}}</p>
-      <p class="modal-intro" ng-show="tournaments.match.played">{{tournaments.match.players[1].local.username}}: {{tournaments.match.score[1]}}</p>
     </div>
   </div>
 </div>

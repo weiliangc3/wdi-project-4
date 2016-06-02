@@ -14,6 +14,7 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   self.showMatchUpdate    = showMatchUpdate;
   self.updateMatch        = updateMatch;
   self.closeTournament    = closeTournament;
+  self.closeRoundRobin    = closeRoundRobin;
 
   self.tournaments        = [];
   self.tournament         = null;
@@ -52,8 +53,10 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
       for (i=0; i < self.tournament.matches.length; i++){
         if (self.tournament.matches[i].played) self.matchesPlayed++;
       }
+      console.log("creator?", self.isCreator);
+      console.log("interested?", self.isInterested);
 
-      console.log(self.tournament);
+      console.log("tournament", self.tournament);
       refreshStandings();
       checkMatchesFinished();
     });
@@ -77,8 +80,8 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
     }
     self.playerStandings.sort(compare);
 
-    console.log(self.allMatchesPlayed);
-    console.log(self.tournament.open);
+    console.log("all matches played?", self.allMatchesPlayed);
+    console.log("tournament open?", self.tournament.open);
     if(!!self.allMatchesPlayed && !self.tournament.open){
       console.log("all matches played, and tournament registration currently closed.");
     }
@@ -143,7 +146,9 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
           players: [self.tournament.players[i], user]
         });
       }
+      self.tournament.allMatchesPlayed = false;
       Tournament.update({id: self.tournament._id} , self.tournament, function(data){
+        getTournament();
       });
     });
   }
@@ -163,6 +168,7 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
     self.tournament.matches[self.matchIndex]              = self.match;
     self.tournament.matches[self.matchIndex].played       = true;
     self.tournament.matches[self.matchIndex].recordedBy   = self.currentUser.local.username;
+    self.tournament.matches[self.matchIndex].active = false;
     var firstPlayer   = self.tournament.matches[self.matchIndex].players[0];
     var secondPlayer  = self.tournament.matches[self.matchIndex].players[1];
     var playerOnePos  = self.tournament.players.map(function(x) {return x._id; }).indexOf(firstPlayer._id);
@@ -191,13 +197,16 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
       self.matchesPlayed++;
       refreshStandings();
       checkMatchesFinished();
-      findWinner();
     });
   }
 
   function checkMatchesFinished(){
     if (self.matchesPlayed === self.tournament.matches.length){
       self.allMatchesPlayed = true;
+      if (self.tournament.open === false) {
+        self.tournament.roundRobinFinished = true;
+        findWinner();
+      }
     }
   }
 
@@ -207,6 +216,56 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
       refreshStandings();
       checkMatchesFinished();
     });
+  }
+
+  function closeRoundRobin(){
+    self.tournament.roundRobinFinished = true;
+    // Closes all games
+    for (i=0;i<self.tournament.matches.length;i++){
+      self.tournament.matches[i].active = false;
+    }
+
+    Tournament.update({id: self.tournament._id} , self.tournament, function(data){
+      refreshStandings();
+      findWinner();
+    });
+  }
+
+  function findWinner(){
+    if (!self.tournament.winner){
+      var foundAllFirst = false;
+      self.firstPlacePlayers = [];
+      self.firstPlacePlayers.push(self.playerStandings[0]);
+      var i=1;
+      while(foundAllFirst === false && self.firstPlacePlayers.length < self.playerStandings.length){
+        if(self.playerStandings[0].points === self.playerStandings[i].points){
+          self.firstPlacePlayers.push(self.playerStandings[i]);
+        } else {
+          foundAllFirst = true;
+        }
+        i++;
+      }
+      console.log("first place players array", self.firstPlacePlayers);
+      if (self.firstPlacePlayers.length === 1 ){
+        self.tournament.winner = self.firstPlacePlayers[0];
+      } else {
+
+        // Makes round robin games for first place players
+        for (j=1; j<self.firstPlacePlayers.length; j++){
+          for (k=0; k<j;k++){
+            self.tournament.matches.push({
+              played: false,
+              players: [self.firstPlacePlayers[k] , self.firstPlacePlayers[j]]
+            });
+          }
+        }
+        self.allMatchesPlayed = false;
+      }
+
+      Tournament.update({id: self.tournament._id} , self.tournament, function(data){
+        getTournament();
+      });
+    }
   }
 
   // Scroll on Page

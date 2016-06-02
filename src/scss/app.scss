@@ -1,9 +1,19 @@
 @import 'bourbon';
 @import 'neat';
 
+// 'Open Sans', 'Slabo 27px', 'Lato', 'Montserrat', sans-serif;
+// 'Lora', serif;
+
 body{
-  background-color: yellow;
+  background-color: #121212;
+  color: #DEDEDE;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
+h1{
+  font-family: "Lora", 'Times New Roman', serif;
+}
+
+
 
 .link{
   cursor: pointer;

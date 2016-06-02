@@ -3,10 +3,11 @@ var Schema   = mongoose.Schema;
 
 var matchSchema = mongoose.Schema({
   score:      [ Number ],
-  played:     Boolean,
+  played:     { type: Boolean, default: false },
   players:    [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
   recordedBy: String,
-  winner:     String
+  winner:     String,
+  active:     { type: Boolean, default: true }
 }, {
   timestamps: true
 });

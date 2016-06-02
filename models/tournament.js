@@ -3,7 +3,7 @@ var Schema   = mongoose.Schema;
 var Match = require("./match");
 
 var tournamentSchema = mongoose.Schema({
-  name:               { type: String , required: true, unique: true },
+  name:               { type: String , required: true },
   location:           String,
   game:               { type: String , required: true },
   description:        String,
@@ -17,8 +17,8 @@ var tournamentSchema = mongoose.Schema({
   playerDraws:        [Number],
   playerPoints:       [Number],
   winner:             { type: mongoose.Schema.ObjectId, ref: 'User' },
-  open:               Boolean,
-  finished:           Boolean
+  open:               { type: Boolean, default: true},
+  roundRobinFinished: { type: Boolean, default: false}
 }, {
   timestamps: true
 });
