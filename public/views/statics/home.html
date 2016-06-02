@@ -28,11 +28,9 @@
 
       <button type="submit">Submit</button>
     </form>
+    <p ng-show="Users.checkLoggedIn()">Welcome back, {{Users.currentUser.local.fullname}}.<p>
+    <div class="button" ui-sref="tournaments">To the Brawl Board</div>
   </div>
 </div>
 
-
-
-
-
-<h2 ng-show="Users.checkLoggedIn()">Welcome to the Fight Federation, {{Users.currentUser.local.fullname}}. Currently logged in as {{Users.currentUser.local.username}}<p>
+<h2>This is the Fight Federation.</h2>

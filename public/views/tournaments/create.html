@@ -38,6 +38,15 @@
     <textarea id="description" name="description" ng-model="tournaments.tournament.description"></textarea>
   </div>
 
+  <div ng-if="tournaments.tournament.image">
+    <img src={{tournaments.tournament.image}} class="preview-image">
+  </div>
+
+  <div>
+    <input type="file" ngf-select ng-model="tournaments.file" name="file">Select File</input>
+    <div ng-click="tournaments.uploadSingle()" class="link">Submit</div>
+  </div>
+
   <button type="submit">Submit</button>
 </form>
 * -These fields are required

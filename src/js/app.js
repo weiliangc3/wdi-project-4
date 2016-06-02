@@ -1,6 +1,7 @@
 angular
-  .module('FightFederation', ['ngResource', 'angular-jwt','ui.router'])
+  .module('FightFederation', ['ngResource', 'angular-jwt','ui.router','ngFileUpload'])
   .constant('API', 'http://localhost:3000/api')
+  .constant('AWS_URL', "https://s3-eu-west-1.amazonaws.com/wdi19-weidings/")
   .config(MainRouter)
   .config(function($httpProvider){
     $httpProvider.interceptors.push("authInterceptor");

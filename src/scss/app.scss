@@ -1,6 +1,11 @@
 @import 'bourbon';
 @import 'neat';
 
+$background-color: #121212;
+$text-color: #DEDEDE;
+$button-color: #720600;
+
+
 @font-face {
     font-family: NonSolus;
     src: url(fonts/NonSolus.ttf) format('truetype');
@@ -9,10 +14,6 @@
     font-family: SansCoulette;
     src: url(fonts/SansCoulette.ttf) format('truetype');
 }
-
-$background-color: #121212;
-$text-color: #DEDEDE;
-
 // 'Open Sans', 'Slabo 27px', 'Lato', 'Montserrat', sans-serif;
 // 'Lora', serif;
 
@@ -35,8 +36,8 @@ div#nav-burger{
   background-image: url("../images/fist.png");
   background-size: cover;
   position: fixed;
-  height: 3em;
-  width: 3em;
+  height: 4em;
+  width: 4em;
   top: 0.5em;
   left: 0.5em;
 }
@@ -48,10 +49,25 @@ div#nav-burger{
   background-color: #B67BB6;
 }
 
+.button{
+  display: inline-block;
+  padding: 0.5em;
+  background-color: $button-color;
+  cursor: pointer;
+  @include transition(all 0.3s ease);
+}
+.button:hover{
+  background-color: lighten($button-color, 15%);
+}
+.button:active{
+  background-color: black;
+}
+
+
+
 div.modal div.modal-inner label{
   display: inline;
 }
-
 
 //Navigation Bar
 .sliding-panel-content {

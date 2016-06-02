@@ -2,8 +2,8 @@ angular
 .module('FightFederation')
 .controller('TournamentsController', TournamentsController);
 
-TournamentsController.$inject = ['User', 'Tournament', 'Match', '$state', '$stateParams', '$scope'];
-function TournamentsController(User, Tournament, Match, $state, $stateParams, $scope){
+TournamentsController.$inject = ['User', 'Tournament', 'Match', '$state', '$stateParams', '$scope', 'Upload', 'API', 'AWS_URL'];
+function TournamentsController(User, Tournament, Match, $state, $stateParams, $scope, Upload, API, AWS_URL){
   var self = this;
 
   self.createTournament   = createTournament;
@@ -268,8 +268,29 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
     }
   }
 
-  // Scroll on Page
+  //
+  self.file = null;
+  self.files = null;
+  self.uploadSingle = uploadSingle;
 
+  function uploadSingle(){
+    console.log("TRYING!");
+    Upload.upload({
+      url: API + '/upload/single',
+      data: { file: self.file }
+    })
+    .then(function(res) {
+      console.log("Success!");
+      if (!self.tournament) self.tournament = {};
+      self.tournament.image = AWS_URL + res.data.filename;
+      console.log(self.tournament);
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
+  }
+
+  // Scroll on Page
   (function (jQuery) {
     jQuery.mark = {
       jump: function (options) {

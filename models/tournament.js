@@ -7,6 +7,7 @@ var tournamentSchema = mongoose.Schema({
   location:           String,
   game:               { type: String , required: true },
   description:        String,
+  image:              String,
   endDate:            Date,
   creator:            { type: mongoose.Schema.ObjectId, ref: 'User' },
   unconfirmedPlayers: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],

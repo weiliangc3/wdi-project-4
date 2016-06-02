@@ -9,6 +9,11 @@ var cookieParser   = require("cookie-parser");
 var methodOverride = require("method-override");
 var jwt            = require('jsonwebtoken');
 var expressJWT     = require('express-jwt');
+
+var uuid           = require('uuid');
+var multer         = require('multer');
+var s3             = require('multer-s3');
+
 var app            = express();
 
 var config         = require('./config/config');
@@ -55,9 +60,31 @@ var routes = require('./config/routes');
 app.use("/api", routes);
 
 // Front end stuff
-
 app.use("/", express.static(__dirname + "/public"));
 app.use("/", express.static(__dirname + "/bower_components"));
+
+var upload = multer({
+  storage: s3({
+    dirname: 'uploads',
+    bucket: process.env.WDI_S3_BUCKET,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    region: 'eu-west-1',
+    contentType: function(req, file, next) {
+      next(null, file.mimetype);
+    },
+    filename: function(req, file, next) {
+      var ext = '.' + file.originalname.split('.').splice(-1)[0];
+      var filename = uuid.v1() + ext;
+      next(null, filename);
+    }
+  })
+});
+
+// This will upload a single file.
+app.post('/api/upload/single', upload.single('file'), function(req, res) {
+  res.status(200).json({ filename: req.file.key });
+});
 
 app.get("/*",function (req,res){
   res.sendFile(__dirname + '/public/views/index.html');
