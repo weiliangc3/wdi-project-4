@@ -21,6 +21,7 @@ body{
   background-color: $background-color;
   color: $text-color;
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  margin:0;
 }
 h1{
   font-family: 'NonSolus', serif;
@@ -31,8 +32,13 @@ h1{
     width: 1em;
   }
 }
+a {
+  color: $text-color;
+  text-decoration: none;
+}
 
 div#nav-burger{
+  background-color: none;
   background-image: url("../images/fist.png");
   background-size: cover;
   position: fixed;
@@ -40,8 +46,30 @@ div#nav-burger{
   width: 4em;
   top: 0.5em;
   left: 0.5em;
+
+}
+div#nav-burger:hover{
 }
 
+div#nowweriot{
+  background-image: url("../images/molotov.jpg");
+  background-size: cover;
+  padding: 1em;
+  min-height: 20em;
+  color: $background-color;
+  h3{
+    font-size: 3em;
+  }
+  p{
+    font-size: 1.5em;
+    text-align: right;
+    color: $text-color;
+    font-weight: bold;
+  }
+  div{
+    float: right;
+  }
+}
 
 
 .link{
@@ -60,7 +88,7 @@ div#nav-burger{
   background-color: lighten($button-color, 15%);
 }
 .button:active{
-  background-color: black;
+  background-color: darken($button-color, 10%);
 }
 
 

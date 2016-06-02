@@ -1,5 +1,6 @@
-<h2>Tournaments Dashboard</h2>
+<h2 ng-if="!!tournaments.tournaments[0]" class="page-title">Brawl Board</h2>
 
+<h3 ng-if="!!tournaments.tournaments[0]">Available Brawls</h3>
 <ul>
   <li ng-repeat="tournament in tournaments.tournaments">
     <ul>
@@ -9,4 +10,13 @@
   </li>
 </ul>
 
-<li><a href="/tournaments" ui-sref="createTournament" ng-show="Users.checkLoggedIn()">Create Tournament</a></li>
+<div ng-if="!tournaments.tournaments[0]" id="nowweriot">
+  <h3>There aren't any brawls</h3>
+  <p>
+    You know what to do.
+  </p>
+  <div class="button"><a href="/tournaments" ui-sref="createTournament" ng-show="Users.checkLoggedIn()">Incite a brawl.</a></div>
+
+</div>
+
+<a href="/tournaments" ui-sref="createTournament" ng-show="Users.checkLoggedIn()" ng-if="!!tournaments.tournaments[0]"><div class="button">Incite a brawl</div></a>

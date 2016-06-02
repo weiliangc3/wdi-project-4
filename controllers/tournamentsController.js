@@ -2,7 +2,9 @@ var Tournament = require("../models/tournament");
 var User = require("../models/user");
 
 function tournamentsIndex(req, res){
-  Tournament.find({}, function(err, tournaments) {
+  Tournament.find({})
+  .populate("players")
+  .exec(function(err, tournaments) {
     if (err) return res.status(404).json(err);
     res.status(200).json(tournaments);
   });

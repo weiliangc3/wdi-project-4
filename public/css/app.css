@@ -20,6 +20,7 @@ body {
   background-color: #121212;
   color: #DEDEDE;
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  margin: 0;
 }
 
 h1 {
@@ -33,7 +34,13 @@ h1 img.small-logo {
   width: 1em;
 }
 
+a {
+  color: #DEDEDE;
+  text-decoration: none;
+}
+
 div#nav-burger {
+  background-color: none;
   background-image: url("../images/fist.png");
   background-size: cover;
   position: fixed;
@@ -41,6 +48,29 @@ div#nav-burger {
   width: 4em;
   top: 0.5em;
   left: 0.5em;
+}
+
+div#nowweriot {
+  background-image: url("../images/molotov.jpg");
+  background-size: cover;
+  padding: 1em;
+  min-height: 20em;
+  color: #121212;
+}
+
+div#nowweriot h3 {
+  font-size: 3em;
+}
+
+div#nowweriot p {
+  font-size: 1.5em;
+  text-align: right;
+  color: #DEDEDE;
+  font-weight: bold;
+}
+
+div#nowweriot div {
+  float: right;
 }
 
 .link {
@@ -63,7 +93,7 @@ div#nav-burger {
 }
 
 .button:active {
-  background-color: black;
+  background-color: #3f0300;
 }
 
 div.modal div.modal-inner label {

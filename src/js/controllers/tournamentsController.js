@@ -103,6 +103,7 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
     self.tournament.playerDraws = [0];
     self.tournament.playerPoints = [0];
     self.tournament.open = true;
+    if (!self.tournament.image) self.tournament.image ="https://s3-eu-west-1.amazonaws.com/wdi19-weidings/uploads/2879eff0-28f4-11e6-af18-f5023d21f64c.png";
     Tournament.save({ tournament: self.tournament
     },
     function(data){
