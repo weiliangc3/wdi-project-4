@@ -1,16 +1,44 @@
 @import 'bourbon';
 @import 'neat';
 
+@font-face {
+    font-family: NonSolus;
+    src: url(fonts/NonSolus.ttf) format('truetype');
+}
+@font-face {
+    font-family: SansCoulette;
+    src: url(fonts/SansCoulette.ttf) format('truetype');
+}
+
+$background-color: #121212;
+$text-color: #DEDEDE;
+
 // 'Open Sans', 'Slabo 27px', 'Lato', 'Montserrat', sans-serif;
 // 'Lora', serif;
 
 body{
-  background-color: #121212;
-  color: #DEDEDE;
+  background-color: $background-color;
+  color: $text-color;
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
 h1{
-  font-family: "Lora", 'Times New Roman', serif;
+  font-family: 'NonSolus', serif;
+  font-weight: 400;
+  text-align: center;
+  img.small-logo{
+    height:1em;
+    width: 1em;
+  }
+}
+
+div#nav-burger{
+  background-image: url("../images/fist.png");
+  background-size: cover;
+  position: fixed;
+  height: 3em;
+  width: 3em;
+  top: 0.5em;
+  left: 0.5em;
 }
 
 
@@ -328,3 +356,36 @@ div.scroll-on-page{
 }
 
 // Based on code by Kasper Mikiewicz
+
+
+//Hero Image
+.hero {
+  $large-screen: 50em !default;
+  align-items: center;
+  background: url("../images/boxing.jpg");
+  background-position: right;
+  background-size: none;
+  display: flex;
+  justify-content: center;
+  min-height: 25em;
+  padding: 2em;
+
+  @include media($large-screen) {
+    background-position: left;
+    background-size: cover;
+    justify-content: flex-end;
+  }
+
+  .hero-content {
+    max-width: 20em;
+    text-align: center;
+
+    @include media($large-screen) {
+      text-align: left;
+    }
+  }
+
+  .hero-logo {
+    margin: auto;
+  }
+}
