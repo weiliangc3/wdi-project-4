@@ -29,7 +29,7 @@
       <button type="submit">Submit</button>
     </form>
     <p ng-show="Users.checkLoggedIn()">Welcome back, {{Users.currentUser.local.fullname}}.<p>
-    <div class="button" ui-sref="tournaments">To the Brawl Board</div>
+    <div ng-show="Users.checkLoggedIn()" class="button" ui-sref="tournaments">To the Brawl Board</div>
   </div>
 </div>
 
