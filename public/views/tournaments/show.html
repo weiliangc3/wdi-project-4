@@ -3,11 +3,11 @@
   Status: {{tournaments.tournament.finished ? "Over" : "Ongoing" }},
   Registration status: {{tournaments.tournament.open ? "Open" : "Closed"}}
 </p>
-<div class="link" ng-if="tournaments.isInterested === false && tournament.open === true" ng-click="tournaments.joinTournament()">Join tournament</div>
-<div class="link" ng-if="tournaments.isCreator === true && tournament.open === true" ng-click="tournaments.closeTournament()">Close player registration for this tournament</div>
+<div class="link" ng-if="!tournaments.isInterested && !!tournaments.tournment.open" ng-click="tournaments.joinTournament()">Join tournament</div>
 
-<!-- <div class="link" ng-if="tournaments.isParticipating === true">Manage tournament.</div>
-<div class="link" ng-if="tournaments.isParticipating === true">Delete tournament.</div> -->
+<div class="link" ng-if="!!tournaments.isCreator && !!tournaments.tournament.open" ng-click="tournaments.closeTournament()">Close player registration for this tournament</div>
+
+<div class="link" ng-if="!!tournaments.isCreator && !tournaments.tournament.open" ng-click="tournaments.closeTournament()">Calculate results for this tournament</div>
 
 <div class="scroll-on-page">
   <aside id="scroll-on-page-top">

@@ -45,8 +45,6 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
         }
       }
       if (self.tournament.creator._id === self.currentUserId){
-        console.log(self.tournament.creator._id);
-        console.log(self.currentUserId);
         self.isCreator = true;
       }
 
@@ -78,6 +76,12 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
       return 0;
     }
     self.playerStandings.sort(compare);
+
+    console.log(self.allMatchesPlayed);
+    console.log(self.tournament.open);
+    if(!!self.allMatchesPlayed && !self.tournament.open){
+      console.log("all matches played, and tournament registration currently closed.");
+    }
   }
 
   function getTournaments(){
@@ -187,6 +191,7 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
       self.matchesPlayed++;
       refreshStandings();
       checkMatchesFinished();
+      findWinner();
     });
   }
 
@@ -197,7 +202,11 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   }
 
   function closeTournament(){
-    console.log("close tourney");
+    self.tournament.open = false;
+    Tournament.update({id: self.tournament._id} , self.tournament, function(data){
+      refreshStandings();
+      checkMatchesFinished();
+    });
   }
 
   // Scroll on Page
