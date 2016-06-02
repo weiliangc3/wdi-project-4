@@ -71,6 +71,20 @@ div#nowweriot{
   }
 }
 
+form#create_tournament{
+  text-align: center;
+  padding: 0.5em;
+}
+
+div.tournament-listing{
+  cursor: pointer;
+  padding: 1em;
+  background-color: lighten($background-color,2%);
+  @include transition(all 0.3s ease);
+}
+div.tournament-listing:hover{
+  background-color: lighten($background-color, 5%)
+}
 
 .link{
   cursor: pointer;
@@ -78,6 +92,10 @@ div#nowweriot{
 }
 
 .button{
+  margin: 0.25em;
+  color: $text-color;
+  font-size: 1em;
+  border: none;
   display: inline-block;
   padding: 0.5em;
   background-color: $button-color;
@@ -91,7 +109,10 @@ div#nowweriot{
   background-color: darken($button-color, 10%);
 }
 
-
+div.preview-image img{
+  max-width: 50%;
+  max-height: 10em;
+}
 
 div.modal div.modal-inner label{
   display: inline;

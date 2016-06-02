@@ -1,14 +1,12 @@
 <h2 ng-if="!!tournaments.tournaments[0]" class="page-title">Brawl Board</h2>
 
 <h3 ng-if="!!tournaments.tournaments[0]">Available Brawls</h3>
-<ul>
-  <li ng-repeat="tournament in tournaments.tournaments">
-    <ul>
-      <li class="link" ui-sref="showTournament({tournamentId: tournament._id})">{{tournament.name}}</li>
-      <li ng-click="tournaments.deleteTournament(tournament._id)" class="link">Remove Tournament Listing</li>
+<div ng-repeat="tournament in tournaments.tournaments" ui-sref="showTournament({tournamentId: tournament._id})" class="tournament-listing">
+<p>{{tournament.name}}</p>
+      <div ng-click="tournaments.deleteTournament(tournament._id)" class="button">Remove Tournament Listing</div>
     </ul>
   </li>
-</ul>
+</div>
 
 <div ng-if="!tournaments.tournaments[0]" id="nowweriot">
   <h3>There aren't any brawls</h3>
@@ -18,5 +16,5 @@
   <div class="button"><a href="/tournaments" ui-sref="createTournament" ng-show="Users.checkLoggedIn()">Incite a brawl.</a></div>
 
 </div>
-
+<br>
 <a href="/tournaments" ui-sref="createTournament" ng-show="Users.checkLoggedIn()" ng-if="!!tournaments.tournaments[0]"><div class="button">Incite a brawl</div></a>

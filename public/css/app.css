@@ -73,12 +73,34 @@ div#nowweriot div {
   float: right;
 }
 
+form#create_tournament {
+  text-align: center;
+  padding: 0.5em;
+}
+
+div.tournament-listing {
+  cursor: pointer;
+  padding: 1em;
+  background-color: #171717;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+div.tournament-listing:hover {
+  background-color: #1f1f1f;
+}
+
 .link {
   cursor: pointer;
   background-color: #B67BB6;
 }
 
 .button {
+  margin: 0.25em;
+  color: #DEDEDE;
+  font-size: 1em;
+  border: none;
   display: inline-block;
   padding: 0.5em;
   background-color: #720600;
@@ -94,6 +116,11 @@ div#nowweriot div {
 
 .button:active {
   background-color: #3f0300;
+}
+
+div.preview-image img {
+  max-width: 50%;
+  max-height: 10em;
 }
 
 div.modal div.modal-inner label {
