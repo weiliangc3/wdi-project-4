@@ -12,8 +12,8 @@ html {
 }
 
 @font-face {
-  font-family: SansCoulette;
-  src: url(fonts/SansCoulette.ttf) format("truetype");
+  font-family: LivingHell;
+  src: url(fonts/LivingHell.ttf) format("truetype");
 }
 
 body {
@@ -24,7 +24,7 @@ body {
 }
 
 h1 {
-  font-family: 'NonSolus', serif;
+  font-family: 'LivingHell', 'NonSolus', serif;
   font-weight: 400;
   text-align: center;
 }
@@ -89,6 +89,10 @@ div.tournament-listing {
 
 div.tournament-listing:hover {
   background-color: #1f1f1f;
+}
+
+div.brawl-content {
+  padding: 0.5em;
 }
 
 .link {
@@ -255,7 +259,7 @@ div.scroll-on-page {
 }
 
 .scroll-on-page article p {
-  color: #333;
+  color: #787878;
   line-height: 1.5em;
 }
 

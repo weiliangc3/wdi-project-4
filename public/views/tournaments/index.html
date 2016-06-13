@@ -2,10 +2,10 @@
 
 <h3 ng-if="!!tournaments.tournaments[0]">Available Brawls</h3>
 <div ng-repeat="tournament in tournaments.tournaments" ui-sref="showTournament({tournamentId: tournament._id})" class="tournament-listing">
-<p>{{tournament.name}}</p>
-      <div ng-click="tournaments.deleteTournament(tournament._id)" class="button">Remove Tournament Listing</div>
-    </ul>
-  </li>
+<h4>{{tournament.name}}</h4>
+<p>
+  A brawl of {{tournament.players.length}} player<span ng-if="tournament.players.length > 1">s</span>, playing {{tournament.game}}
+</p>
 </div>
 
 <div ng-if="!tournaments.tournaments[0]" id="nowweriot">

@@ -1,123 +1,136 @@
-<h2>{{tournaments.tournament.name}}</h2>
-<p>
-  Status: {{!!tournaments.tournament.winner ? "Over" : "Ongoing" }}.
-  <span ng-if="!!tournaments.tournament.winner"> The winner was {{tournaments.tournament.winner.local.username}}.</span>
-  <span ng-if="!tournaments.tournament.winner">Registration status: {{tournaments.tournament.open ? "Open" : "Closed"}}.</span>
-</p>
-<p ng-if="tournaments.tournament.roundRobinFinished">
-  The round robin phase is over.
-</p>
-
-<p ng-show="tournaments.tournament.players.length > 1 && tournaments.allMatchesPlayed">
-  All matches have been played.
-</p>
-
-<p ng-if="tournaments.tournament.roundRobinFinished && !tournaments.allMatchesPlayed">
-  Tie breakers have yet to be played
-</p>
-
-<div class="link" ng-if="!tournaments.isInterested && !!tournaments.tournament.open" ng-click="tournaments.joinTournament()">Join tournament</div>
-
-<div class="link" ng-if="!!tournaments.isCreator && !!tournaments.tournament.open" ng-click="tournaments.closeTournament()">Close player registration for this tournament</div>
-
-<div class="link" ng-if="!!tournaments.isCreator && !tournaments.tournament.open && !tournaments.tournament.roundRobinFinished" ng-click="tournaments.closeRoundRobin()">Close round robin games</div>
-
-<div class="scroll-on-page">
-  <aside id="scroll-on-page-top">
-    <a class="scroll-on-page-link" href="#scroll-link-1">Tournament Details</a>
-    <a class="scroll-on-page-link" href="#scroll-link-2">Current Standings</a>
-    <a class="scroll-on-page-link" href="#scroll-link-3">Matches</a>
-  </aside>
-
-  <article>
-
-    <section>
-      <h3 id="scroll-link-1">Tournament Details</h3>
-      <h4>{{tournaments.tournament.name}}</h4>
-      <p>
-        A {{tournaments.tournament.game}} tournament, held at {{tournaments.tournament.location}}.
-      </p>
-      <p>
-        {{tournaments.tournament.description}}
-      </p>
-      <p>
-        Organised by {{tournaments.tournament.creator.local.username}}<span ng-if="tournaments.tournament.endDate">, this tournament will run until {{tournaments.tournament.endDate}}</span>.
-      </p>
-      <p>
-        Current players:
-      </p>
-      <ul>
-        <li ng-repeat="player in tournaments.tournament.players">{{player.local.username}}</li>
-      </ul>
-      <p ng-if="tournaments.tournament.unconfirmedPlayers.length > 0">
-        Current players who are awaiting approval:
-      </p>
-      <ul ng-if="tournaments.tournament.unconfirmedPlayers.length > 0">
-        <li ng-repeat="player in tournaments.tournament.unconfirmedPlayers">
-          {{player.local.username}}<span ng-if="tournaments.isCreator" ng-click="tournaments.confirmPlayer(player._id)" class="link">, confirm this player?</span>
-        </li>
-      </ul>
-      <a class="scroll-on-page-link" href="#scroll-on-page-top">Back to top</a>
-    </section>
-
-    <section>
-      <h3 id="scroll-link-2">Current Standings</h3>
-      <p>Matches played: {{tournaments.matchesPlayed}}</p>
-      <ul>
-        <li ng-repeat="player in tournaments.playerStandings">{{player.local.username}}: {{player.points}} points with {{player.wins}} wins, {{player.losses}} losses and {{player.draws}} draws</li>
-      </ul>
-      <a class="scroll-on-page-link" href="#scroll-on-page-top">Back to top</a>
-    </section>
-
-    <section>
-      <h3 id="scroll-link-3">Matches</h3>
-      <ul>
-        <li ng-repeat="match in tournaments.tournament.matches track by $index" ng-click="tournaments.openMatchModal(match, $index)" class="link">
-          {{match.players[0].local.username}} vs {{match.players[1].local.username}}
-          <span ng-if="match.played">: {{match.score[0]}}-{{match.score[1]}}</span>
-        </li>
-      </ul>
-      <a class="scroll-on-page-link" href="#scroll-on-page-top">Back to top</a>
-    </section>
-
-  </article>
+<div class="hero">
+  <div class="hero-content">
+    <img src="images/fistsmall.png" alt="Logo Image" class="hero-logo">
+    <h2>{{tournaments.tournament.name}}</h2>
+    <p>
+      Status: {{!!tournaments.tournament.winner ? "Over" : "Ongoing" }}.
+      <span ng-if="!!tournaments.tournament.winner"> The winner was {{tournaments.tournament.winner.local.username}}.</span>
+      <span ng-if="!tournaments.tournament.winner">Registration status: {{tournaments.tournament.open ? "Open" : "Closed"}}.</span>
+    </p>
+  </div>
 </div>
 
-<div class="modal">
-  <label for="modal-1">
-    <div class="modal-trigger"></div>
-  </label>
-  <input class="modal-state" id="modal-1" type="checkbox" />
-  <div class="modal-fade-screen">
-    <div class="modal-inner">
-      <div class="modal-close" for="modal-1"></div>
-      <h1>{{tournaments.tournament.name}}</h1>
 
-      <p class="modal-intro">{{tournaments.match.players[0].local.username}} vs {{tournaments.match.players[1].local.username}}</p>
 
-      <p class="modal-intro" ng-show="tournaments.match.played">Match Played</p>
-      <p class="modal-intro" ng-show="tournaments.match.played">The winner was {{tournaments.match.winner}}</p>
-      <p class="modal-intro" ng-show="tournaments.match.played">{{tournaments.match.players[0].local.username}}: {{tournaments.match.score[0]}}</p>
-      <p class="modal-intro" ng-show="tournaments.match.played">{{tournaments.match.players[1].local.username}}: {{tournaments.match.score[1]}}</p>
 
-      <p class="modal-intro" ng-hide="tournaments.match.played">The results for this match has not been recorded</p>
-      <p class="modal-intro link" ng-show="(!tournaments.match.played && tournaments.match.active)" ng-click="tournaments.showMatchUpdate()">Update this match?</p>
+<div class="brawl-content">
+  <p ng-if="tournaments.tournament.roundRobinFinished">
+    The round robin phase is over.
+  </p>
 
-      <!-- Add this to allow creator to edit, but needs a new tallyScore function || (tournaments.isCreator && !tournaments.tournament.winner) -->
+  <p ng-show="tournaments.tournament.players.length > 1 && tournaments.allMatchesPlayed">
+    All fights have finished.
+  </p>
 
-      <form ng-submit="tournaments.updateMatch()" ng-show="tournaments.showUpdate">
-        <strong>Scores</strong>
-        <div>
-          <label for="player0score">{{tournaments.match.players[0].local.username}}:</label><br>
-          <input type="number" id="player0score" ng-model="tournaments.match.score[0]">
-        </div>
-        <div>
-          <label for="player0score">{{tournaments.match.players[1].local.username}}:</label><br>
-          <input type="number" id="player0score" ng-model="tournaments.match.score[1]">
-        </div>
-        <input type="submit" value="Update Match">
-      </form>
+  <p ng-if="tournaments.tournament.roundRobinFinished && !tournaments.allMatchesPlayed">
+    Tie breakers have yet to be played
+  </p>
 
+  <div class="button" ng-if="!tournaments.isInterested && !!tournaments.tournament.open" ng-click="tournaments.joinTournament()">Join this brawl</div>
+
+  <div class="button" ng-if="!!tournaments.isCreator && !!tournaments.tournament.open" ng-click="tournaments.closeTournament()">Close registration for this brawl</div>
+
+  <div class="button" ng-if="!!tournaments.isCreator && !tournaments.tournament.open && !tournaments.tournament.roundRobinFinished" ng-click="tournaments.closeRoundRobin()">Close round robin games</div>
+
+  <div class="scroll-on-page">
+    <aside id="scroll-on-page-top">
+      <a class="scroll-on-page-link" href="#scroll-link-1">Brawl Details</a>
+      <a class="scroll-on-page-link" href="#scroll-link-2">Current Standings</a>
+      <a class="scroll-on-page-link" href="#scroll-link-3">Matches</a>
+    </aside>
+
+    <article>
+
+      <section>
+        <h3 id="scroll-link-1">Brawl Details</h3>
+        <h4>{{tournaments.tournament.name}}</h4>
+        <p>
+          A {{tournaments.tournament.game}} brawl, held at {{tournaments.tournament.location}}.
+        </p>
+        <p>
+          {{tournaments.tournament.description}}
+        </p>
+        <p>
+          Organised by {{tournaments.tournament.creator.local.username}}<span ng-if="tournaments.tournament.endDate">, this brawl will run until {{tournaments.tournament.endDate}}</span>.
+        </p>
+        <p>
+          Current players:
+        </p>
+        <ul>
+          <li ng-repeat="player in tournaments.tournament.players">{{player.local.username}}</li>
+        </ul>
+        <p ng-if="tournaments.tournament.unconfirmedPlayers.length > 0">
+          Sluggers waiting to be let in:
+        </p>
+        <ul ng-if="tournaments.tournament.unconfirmedPlayers.length > 0">
+          <li ng-repeat="player in tournaments.tournament.unconfirmedPlayers">
+            {{player.local.username}}<div ng-if="tournaments.isCreator" ng-click="tournaments.confirmPlayer(player._id)" class="button">Let the slugger join</div>
+          </li>
+        </ul>
+        <a class="scroll-on-page-link" href="#scroll-on-page-top">Back to top</a>
+      </section>
+
+      <section>
+        <h3 id="scroll-link-2">Current Standings</h3>
+        <p>Matches played: {{tournaments.matchesPlayed}}</p>
+        <ul>
+          <li ng-repeat="player in tournaments.playerStandings">{{player.local.username}}: {{player.points}} points with {{player.wins}} wins, {{player.losses}} losses and {{player.draws}} draws</li>
+        </ul>
+        <a class="scroll-on-page-link" href="#scroll-on-page-top">Back to top</a>
+      </section>
+
+      <section>
+        <h3 id="scroll-link-3">Matches</h3>
+        <ul>
+          <li ng-repeat="match in tournaments.tournament.matches track by $index" ng-click="tournaments.openMatchModal(match, $index)" class="link">
+            {{match.players[0].local.username}} vs {{match.players[1].local.username}}
+            <span ng-if="match.played">: {{match.score[0]}}-{{match.score[1]}}</span>
+          </li>
+        </ul>
+        <a class="scroll-on-page-link" href="#scroll-on-page-top">Back to top</a>
+      </section>
+
+    </article>
+  </div>
+
+  <div class="modal">
+    <label for="modal-1">
+      <div class="modal-trigger"></div>
+    </label>
+    <input class="modal-state" id="modal-1" type="checkbox" />
+    <div class="modal-fade-screen">
+      <div class="modal-inner">
+        <div class="modal-close" for="modal-1"></div>
+        <h1>{{tournaments.tournament.name}}</h1>
+
+        <p class="modal-intro">{{tournaments.match.players[0].local.username}} vs {{tournaments.match.players[1].local.username}}</p>
+
+        <p class="modal-intro" ng-show="tournaments.match.played">Match Played</p>
+        <p class="modal-intro" ng-show="tournaments.match.played">The champion was {{tournaments.match.winner}}</p>
+        <p class="modal-intro" ng-show="tournaments.match.played">{{tournaments.match.players[0].local.username}}: {{tournaments.match.score[0]}}</p>
+        <p class="modal-intro" ng-show="tournaments.match.played">{{tournaments.match.players[1].local.username}}: {{tournaments.match.score[1]}}</p>
+
+        <p class="modal-intro" ng-hide="tournaments.match.played">The results for this match has not been recorded</p>
+        <p class="modal-intro button" ng-show="(!tournaments.match.played && tournaments.match.active)" ng-click="tournaments.showMatchUpdate()">Update this match?</p>
+
+        <!-- Add this to allow creator to edit, but needs a new tallyScore function || (tournaments.isCreator && !tournaments.tournament.winner) -->
+
+        <form ng-submit="tournaments.updateMatch()" ng-show="tournaments.showUpdate">
+          <strong>Scores</strong>
+          <div>
+            <label for="player0score">{{tournaments.match.players[0].local.username}}:</label><br>
+            <input type="number" id="player0score" ng-model="tournaments.match.score[0]">
+          </div>
+          <div>
+            <label for="player0score">{{tournaments.match.players[1].local.username}}:</label><br>
+            <input type="number" id="player0score" ng-model="tournaments.match.score[1]">
+          </div>
+          <input type="submit" value="Update Match">
+        </form>
+
+      </div>
     </div>
   </div>
+
+  <div ng-click="tournaments.deleteTournament(tournaments.tournament._id)" class="button" ng-if="!!tournaments.isCreator" >Remove Brawl Listing (Testing purposes)</div>
 </div>

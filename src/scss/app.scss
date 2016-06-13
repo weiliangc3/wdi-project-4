@@ -11,8 +11,8 @@ $button-color: #720600;
     src: url(fonts/NonSolus.ttf) format('truetype');
 }
 @font-face {
-    font-family: SansCoulette;
-    src: url(fonts/SansCoulette.ttf) format('truetype');
+    font-family: LivingHell;
+    src: url(fonts/LivingHell.ttf) format('truetype');
 }
 // 'Open Sans', 'Slabo 27px', 'Lato', 'Montserrat', sans-serif;
 // 'Lora', serif;
@@ -24,7 +24,7 @@ body{
   margin:0;
 }
 h1{
-  font-family: 'NonSolus', serif;
+  font-family: 'LivingHell', 'NonSolus', serif;
   font-weight: 400;
   text-align: center;
   img.small-logo{
@@ -84,6 +84,10 @@ div.tournament-listing{
 }
 div.tournament-listing:hover{
   background-color: lighten($background-color, 5%)
+}
+
+div.brawl-content{
+  padding: 0.5em;
 }
 
 .link{
@@ -245,7 +249,7 @@ div.scroll-on-page{
     }
 
     p {
-      color: $base-font-color;
+      color: darken($text-color,40%);
       line-height: $base-line-height;
     }
 

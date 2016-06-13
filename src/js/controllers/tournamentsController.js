@@ -53,12 +53,14 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
       for (i=0; i < self.tournament.matches.length; i++){
         if (self.tournament.matches[i].played) self.matchesPlayed++;
       }
-      console.log("creator?", self.isCreator);
-      console.log("interested?", self.isInterested);
-
-      console.log("tournament", self.tournament);
       refreshStandings();
       checkMatchesFinished();
+
+      console.log(self.tournament);
+      if(!!self.tournament.image){
+        console.log("firing");
+        $("div.hero").css('background', "url(" + self.tournament.image + ")").css('background-size', "cover");
+      }
     });
   }
 
@@ -103,7 +105,7 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
     self.tournament.playerDraws = [0];
     self.tournament.playerPoints = [0];
     self.tournament.open = true;
-    if (!self.tournament.image) self.tournament.image ="https://s3-eu-west-1.amazonaws.com/wdi19-weidings/uploads/2879eff0-28f4-11e6-af18-f5023d21f64c.png";
+    if (!self.tournament.image) self.tournament.image ="/images/leftrite.jpg";
     Tournament.save({ tournament: self.tournament
     },
     function(data){
@@ -118,7 +120,7 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
 
   function deleteTournament(id){
     Tournament.delete({id: id}, function(){
-      getTournaments();
+      $state.go("tournaments");
     });
   }
 
