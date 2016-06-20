@@ -168,6 +168,12 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   }
 
   function updateMatch(){
+    if (self.tournament.matches[self.matchIndex].score[0] === undefined){
+      self.tournament.matches[self.matchIndex].score[0] = 0;
+    }
+    if (self.tournament.matches[self.matchIndex].score[1] === undefined){
+      self.tournament.matches[self.matchIndex].score[1] = 1;
+    }
     self.tournament.matches[self.matchIndex]              = self.match;
     self.tournament.matches[self.matchIndex].played       = true;
     self.tournament.matches[self.matchIndex].recordedBy   = self.currentUser.local.username;
