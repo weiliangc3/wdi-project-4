@@ -1,6 +1,9 @@
 {
   "name": "wdi-project-4",
   "version": "1.0.0",
+  "engines":{
+    "node": "6.0.0"
+  },
   "description": "3rd Project- Tournament Organiser",
   "main": "app.js",
   "scripts": {
