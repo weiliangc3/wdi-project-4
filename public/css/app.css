@@ -100,6 +100,25 @@ div.brawl-content {
   background-color: #B67BB6;
 }
 
+li.gamelink {
+  cursor: pointer;
+  padding: 0.5em;
+  margin: 0.25em;
+  background-color: #720600;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  color: #DEDEDE;
+}
+
+li.gamelink:hover {
+  background-color: #bf0a00;
+}
+
+li.gamelink:active {
+  background-color: #3f0300;
+}
+
 .button {
   margin: 0.25em;
   color: #DEDEDE;
@@ -470,4 +489,12 @@ div.scroll-on-page {
 
 .hero .hero-logo {
   margin: auto;
+}
+
+div.modal-inner {
+  color: #333;
+}
+
+div.modal-inner p.button {
+  color: #DEDEDE;
 }

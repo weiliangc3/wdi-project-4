@@ -56,9 +56,8 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
       refreshStandings();
       checkMatchesFinished();
 
-      console.log(self.tournament);
+
       if(!!self.tournament.image){
-        console.log("firing");
         $("div.hero").css('background', "url(" + self.tournament.image + ")").css('background-size', "cover");
       }
     });
@@ -82,10 +81,7 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
     }
     self.playerStandings.sort(compare);
 
-    console.log("all matches played?", self.allMatchesPlayed);
-    console.log("tournament open?", self.tournament.open);
     if(!!self.allMatchesPlayed && !self.tournament.open){
-      console.log("all matches played, and tournament registration currently closed.");
     }
   }
 
@@ -254,7 +250,7 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
         }
         i++;
       }
-      console.log("first place players array", self.firstPlacePlayers);
+
       if (self.firstPlacePlayers.length === 1 ){
         self.tournament.winner = self.firstPlacePlayers[0];
       } else {
@@ -283,16 +279,13 @@ function TournamentsController(User, Tournament, Match, $state, $stateParams, $s
   self.uploadSingle = uploadSingle;
 
   function uploadSingle(){
-    console.log("TRYING!");
     Upload.upload({
       url: API + '/upload/single',
       data: { file: self.file }
     })
     .then(function(res) {
-      console.log("Success!");
       if (!self.tournament) self.tournament = {};
       self.tournament.image = AWS_URL + res.data.filename;
-      console.log(self.tournament);
     })
     .catch(function(err) {
       console.error(err);

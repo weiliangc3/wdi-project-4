@@ -82,7 +82,7 @@
       <section>
         <h3 id="scroll-link-3">Matches</h3>
         <ul>
-          <li ng-repeat="match in tournaments.tournament.matches track by $index" ng-click="tournaments.openMatchModal(match, $index)" class="link">
+          <li ng-repeat="match in tournaments.tournament.matches track by $index" ng-click="tournaments.openMatchModal(match, $index)" class="gamelink">
             {{match.players[0].local.username}} vs {{match.players[1].local.username}}
             <span ng-if="match.played">: {{match.score[0]}}-{{match.score[1]}}</span>
           </li>

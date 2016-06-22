@@ -1,6 +1,14 @@
 @import 'bourbon';
 @import 'neat';
 
+@mixin vertical-align {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
 $background-color: #121212;
 $text-color: #DEDEDE;
 $button-color: #720600;
@@ -93,6 +101,20 @@ div.brawl-content{
 .link{
   cursor: pointer;
   background-color: #B67BB6;
+}
+li.gamelink{
+  cursor: pointer;
+  padding: 0.5em;
+  margin: 0.25em;
+  background-color: $button-color;
+  @include transition(all 0.3s ease);
+  color: $text-color;
+}
+li.gamelink:hover{
+  background-color: lighten($button-color, 15%);
+}
+li.gamelink:active{
+  background-color: darken($button-color, 10%);
 }
 
 .button{
@@ -456,5 +478,12 @@ div.scroll-on-page{
 
   .hero-logo {
     margin: auto;
+  }
+}
+
+div.modal-inner{
+  color: #333;
+  p.button{
+    color: $text-color;
   }
 }
